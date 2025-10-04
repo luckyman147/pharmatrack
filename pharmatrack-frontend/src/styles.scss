@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+/* Import Poppins from Google Fonts */
+@use "@coreui/coreui/scss/coreui" as * with (
+  $enable-deprecation-messages: false
+);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+/* Base typography */
+$colors: (
+  primary: #00A389,
+  secondary: #58CDFF,
+  success: #22c55e,
+  danger: #ef4444,
+  warning: #f59e0b,
+  body: #464255,
+  info: #0ea5e9,
+  light: #f8fafc,
+  dark: #0f172a
+);
+.btn-primary-custom {
+  background-color: $success;  // or #007bff if no variable
+  border-color: $primary;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+
+}
+//hover effect
+.btn-primary-custom:hover {
+  background-color: darken($success, 10%);
+  border-color: darken($success, 10%);
+  color: #fff;
+}
+:root {
+  --font-family-base: 'Poppins', sans-serif;
+
+  @each $name, $color in $colors {
+    --color-#{$name}: #{$color};
+    --color-#{$name}-15: #{rgba($color, 0.15)};
+  }
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  color: #212529;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings */
+h1, .h1 { font-family: var(--font-family-base); font-weight: 700; }
+h2, .h2 { font-family: var(--font-family-base); font-weight: 600; }
+h3, .h3 { font-family: var(--font-family-base); font-weight: 500; }
+h4, .h4, h5, .h5, h6, .h6 { font-family: var(--font-family-base); font-weight: 400; }
+
+/* Buttons */
+button, .btn {
+  font-family: var(--font-family-base);
+  font-weight: 500;
+}
+
+/* Inputs, labels */
+input, textarea, select, label {
+  font-family: var(--font-family-base);
+}
+
+$font-family-base: 'Poppins', sans-serif;

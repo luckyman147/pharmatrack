@@ -1,0 +1,12 @@
+using System;
+using MediatR;
+
+namespace PharmaTrack.Shared.CQRS;
+
+   public  interface ICommand:ICommand<Unit>
+    {
+        
+    }
+    public  interface ICommand<out TResponse>:IRequest<TResponse>
+    {
+    }

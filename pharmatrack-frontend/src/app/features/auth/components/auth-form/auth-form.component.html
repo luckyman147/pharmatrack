@@ -1,0 +1,86 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100" 
+     style="background: url('/assets/images/bg.png') no-repeat center center / cover;  background-size: cover; width:110vh; height: 100vh;">
+  
+  <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%; border-radius: 12px;">
+    <!-- Logo -->
+    <div class="text-center mb-4">
+      <img src="/assets/images/logo.png" alt="Logo" class="mb-2" style="max-width: 260px ;" />
+    
+    </div>
+
+
+    <!-- Form -->
+    <form>
+      <!-- Extra input for register -->
+      <div *ngIf="mode === 'register'" class="mb-3">
+        <label class="form-label">Nom complet</label>
+        <input type="text" class="form-control" style="font-size: 0.95rem;"  placeholder="Votre nom complet" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label ">Login</label>
+        <input type="text" class="form-control" 
+        name="code"
+
+        style="font-size: 0.85rem;" 
+         placeholder="Identifiant ici" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"  style="font-size: 0.95rem;" >Mot de Passe</label>
+     <div class="input-group">
+
+  <input [type]="showPassword ? 'text' : 'password'" class="form-control" 
+  name="password"
+
+  style="font-size: 0.85rem;"  placeholder="Mot de Passe ici" />
+  <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+ <i 
+      class="bi" 
+      [class]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+    ></i>
+
+</button>
+</div>
+      </div>
+
+      <!-- Confirm Password only for register -->
+      <div *ngIf="mode === 'register'" class="mb-3">
+        <label class="form-label">Confirmer le Mot de Passe</label>
+        <input type="password" class="form-control" placeholder="Confirmez le mot de passe" />
+      </div>
+
+      <!-- Forgot password only in login -->
+      <div class="mb-3 justify-content-center" *ngIf="mode === 'login'">
+        <a href="/auth/forgot-password" class="small ">Mot de passe oublié?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary-custom w-60 center d-block mx-auto">
+        {{ mode === 'login' ? 'Se connecter' : 'Créer un compte' }}
+      </button>
+    </form>
+
+    <!-- Footer Links -->
+<div class="text-center mt-3">
+
+      <small>
+
+        <ng-container *ngIf="mode === 'login'">
+
+          Je n’ai pas de compte? <a href="/auth/register"class="small">Créer un compte</a>
+
+        </ng-container>
+
+        <ng-container *ngIf="mode === 'register'">
+
+          Déjà un compte? <a href="/auth/login" class="small">Se connecter</a>
+
+        </ng-container>
+
+      </small>
+
+    </div>
+
+  </div>
+
+</div> 

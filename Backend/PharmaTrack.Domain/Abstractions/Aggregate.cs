@@ -1,0 +1,20 @@
+using System;
+
+namespace PharmaTrack.Domain.Abstractions;
+
+    public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
+    {
+        private readonly List<IDomainEvent> _domainEvents = new();
+        public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public void AddDomainEvent(IDomainEvent eventItem)
+        {
+            _domainEvents.Add(eventItem);
+        }
+
+        public IDomainEvent[] ClearDomainEvents()
+        {
+          IDomainEvent[] events = _domainEvents.ToArray();
+            _domainEvents.Clear();
+            return events;
+        }
+    }

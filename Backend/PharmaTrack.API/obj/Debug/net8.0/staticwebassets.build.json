@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "GmzFIiEik7h18hcS4x73D7lAS6lJixdLH7Kx3++eaN4=",
+  "Source": "PharmaTrack.API",
+  "BasePath": "_content/PharmaTrack.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

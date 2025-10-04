@@ -1,0 +1,357 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Infrastructure\\PharmaTrack.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\PharmaTrack.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\PharmaTrack.Application.csproj",
+        "projectName": "PharmaTrack.Application",
+        "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\PharmaTrack.Application.csproj",
+        "packagesPath": "C:\\Users\\Iyed\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Iyed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj": {
+                "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj"
+              },
+              "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj": {
+                "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[15.0.1, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
+            "Mapster.DependencyInjection": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[13.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj",
+        "projectName": "PharmaTrack.Domain",
+        "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj",
+        "packagesPath": "C:\\Users\\Iyed\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Iyed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[13.0.0, )"
+            },
+            "MongoDB.driver": {
+              "target": "Package",
+              "version": "[3.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Infrastructure\\PharmaTrack.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Infrastructure\\PharmaTrack.Infrastructure.csproj",
+        "projectName": "PharmaTrack.Infrastructure",
+        "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Infrastructure\\PharmaTrack.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Iyed\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Iyed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\PharmaTrack.Application.csproj": {
+                "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Application\\PharmaTrack.Application.csproj"
+              },
+              "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj": {
+                "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Domain\\PharmaTrack.Domain.csproj"
+              },
+              "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj": {
+                "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.14.0, )"
+            },
+            "Microsoft.Extensions.Caching.Memory": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.IdentityModel.JsonWebTokens": {
+              "target": "Package",
+              "version": "[8.14.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.14.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.14.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj",
+        "projectName": "PharmaTrack.Shared",
+        "projectPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\PharmaTrack.Shared.csproj",
+        "packagesPath": "C:\\Users\\Iyed\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Iyed\\Desktop\\Medical_Solution\\Backend\\PharmaTrack.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Iyed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.1, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[13.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

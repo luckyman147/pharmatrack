@@ -1,0 +1,13 @@
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\bin\Debug\net8.0\PharmaTrack.Domain.deps.json
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\bin\Debug\net8.0\PharmaTrack.Domain.dll
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\bin\Debug\net8.0\PharmaTrack.Domain.pdb
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.csproj.AssemblyReference.cache
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.AssemblyInfoInputs.cache
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.AssemblyInfo.cs
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.sourcelink.json
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.dll
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\refint\PharmaTrack.Domain.dll
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\PharmaTrack.Domain.pdb
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Domain\obj\Debug\net8.0\ref\PharmaTrack.Domain.dll

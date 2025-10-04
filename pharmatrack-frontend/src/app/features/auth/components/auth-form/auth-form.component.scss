@@ -1,0 +1,19 @@
+$colors: (
+  primary: #00A389,
+  secondary: #58CDFF,
+  success: #22c55e,
+  danger: #ef4444,
+  warning: #f59e0b,
+  body: #464255,
+  info: #0ea5e9,
+  light: #f8fafc,
+  dark: #0f172a
+);
+.btn-primary-custom {
+  background-color: 00A389;  // or #007bff if no variable
+
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+
+}
