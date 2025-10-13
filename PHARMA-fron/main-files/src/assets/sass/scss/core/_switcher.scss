@@ -1,0 +1,369 @@
+/* swicther */
+
+.switcher-wrapper {
+
+	width: 280px;
+
+	height: 100%;
+
+	position: fixed;
+
+	right: -280px;
+
+	top: 0;
+
+	bottom: 0;
+
+	z-index: 1030;
+
+	background: #111314;
+
+	border-left: 0 solid #d2d2d2;
+
+	box-shadow: 0 .3rem .6rem rgba(0, 0, 0, .13);
+
+	transition: all .2s ease-out
+
+}
+
+.switcher-btn {
+
+	width: 40px;
+
+	height: 40px;
+
+	line-height: 40px;
+
+	font-size: 24px;
+
+	background: rgb(255 255 255 / 15%);
+
+	box-shadow: 0 .3rem .6rem rgba(0, 0, 0, .13);
+
+	color: white;
+
+	text-align: center;
+
+	border-top-left-radius: 10px;
+
+	border-bottom-left-radius: 10px;
+
+	position: absolute;
+
+	top: 40%;
+
+	right: 100%;
+
+	cursor: pointer
+
+}
+
+.switcher-wrapper.switcher-toggled {
+
+	right: 0
+
+}
+
+.switcher-body {
+
+	padding: 1.25rem
+
+}
+
+.switcher {
+
+	list-style: none;
+
+	margin: 0;
+
+	padding: 0;
+
+	overflow: hidden;
+
+	margin-left: 20px;
+
+}
+
+.switcher li {
+
+	float: left;
+
+	width: 55px;
+
+	height: 55px;
+
+	margin: 0 15px 15px 0px;
+
+	border-radius: 10px;
+
+	border: 0px solid black;
+
+}
+
+
+.bg-theme {
+
+	background-size: 100% 100%;
+
+	background-attachment: fixed;
+
+	background-position: center;
+
+	background-repeat: no-repeat;
+
+	transition: background .2s;
+
+}
+
+#theme1 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme2 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme3 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme4 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme5 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme6 {
+
+	background-color: white;
+
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme7 {
+
+		background-color: white;
+;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme8 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme9 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme10 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme11 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme12 {
+
+	background-color: white;
+
+	background-size: 100% 100%;
+
+	background-position: center;
+
+	transition: background .3s;
+
+}
+
+#theme13 {
+		background-color: white;
+	background-size: 100% 100%;
+	background-position: center;
+	transition: background .3s;
+  }
+  
+  #theme14 {
+		background-color: white;
+	background-size: 100% 100%;
+	background-position: center;
+	transition: background .3s;
+  }
+  #theme15 {
+	background-color: white;
+	background-size: 100% 100%;
+	background-position: center;
+	transition: background .3s;
+  }
+
+body.bg-theme1 {
+
+	background-color: white;
+
+}
+
+body.bg-theme2 {
+
+	background-color: white;
+
+}
+
+body.bg-theme3 {
+
+	background-color: white;
+
+}
+
+body.bg-theme4 {
+
+	background-color: white;
+
+}
+
+body.bg-theme5 {
+
+	background-color: white;
+
+}
+
+body.bg-theme6 {
+
+		background-color: white;
+
+
+}
+
+body.bg-theme7 {
+
+		background-color: white;
+
+
+}
+
+body.bg-theme8 {
+	background-color: white;
+
+}
+
+body.bg-theme9 {
+
+	background-color: white;
+
+}
+
+body.bg-theme10 {
+
+	background-color: white;
+
+}
+
+body.bg-theme11 {
+
+	background-color: white;
+
+}
+
+body.bg-theme12 {
+
+	background-color: white;
+
+}
+
+body.bg-theme13 {
+	background-color: white;
+  }
+
+body.bg-theme14 {
+	background-color: white;
+
+}
+
+body.bg-theme15 {
+	background-color: white;
+  }
+

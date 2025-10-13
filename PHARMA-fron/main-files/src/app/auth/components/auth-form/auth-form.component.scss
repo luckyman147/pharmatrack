@@ -1,0 +1,42 @@
+$colors: (
+  primary: #00A389,
+  secondary: #58CDFF,
+  success: #22c55e,
+  danger: #ef4444,
+  warning: #f59e0b,
+  body: #464255,
+  info: #0ea5e9,
+  light: #f8fafc,
+  dark: #0f172a
+);
+
+.card{
+    background-color: rgb(255, 255, 255);
+  box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .12);
+  margin-bottom: 1.5rem;
+
+}
+
+.fw-bold{
+  color: map-get($map: $colors, $key:dark );
+}
+.btn-primary-custom {
+  background-color: #00A389;  // or #007bff if no variable
+
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+
+}
+.auth-container {
+  height: 100vh; /* full viewport height */
+  width: 100%;
+  background: url('/assets/images/bg.png') no-repeat center center;
+  background-size: cover;
+}
+
+.auth-card {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+}

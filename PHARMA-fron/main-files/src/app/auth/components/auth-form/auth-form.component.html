@@ -1,0 +1,40 @@
+<div class="auth-container d-flex align-items-center justify-content-center min-vh-100" 
+     style="background: url('/assets/images/bg.png') no-repeat center  / cover;  background-size: cover;  ">
+  
+  <div class="card shadow-sm  p-4 pt-0 align-items-center justify-content-center " style="max-width: 400px; width: 100%; border-radius: 12px;">
+    <!-- Logo -->
+    <div class="text-center mb-4">
+      <img src="/assets/images/logo.png" alt="Logo" class="mb-2" style="max-width: 260px ;" />
+          <h5 class="fw-bold">{{ title }}</h5>
+    </div>
+
+<ng-content></ng-content>
+    <!-- Form -->
+ 
+    <!-- Footer Links -->
+<div class="text-center mt-3">
+
+      <small>
+
+        <ng-container *ngIf="mode === 'login'">
+
+          <p>Je n’ai pas de compte? <a routerLink="/auth/sign-up">Créer un compte</a>
+
+        </ng-container>
+
+        <ng-container *ngIf="mode === 'register'">
+
+<p >
+  Déjà un compte?
+  <a routerLink="/auth/sign-in" >Se connecter</a>
+</p>
+
+        </ng-container>
+
+      </small>
+
+    </div>
+
+  </div>
+
+</div> 

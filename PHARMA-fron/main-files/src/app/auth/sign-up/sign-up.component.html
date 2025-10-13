@@ -1,0 +1,74 @@
+
+<!--wrapper-->
+<div class="wrapper">
+
+	<div><app-auth-form title="Creer un compte" mode="register" >
+
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Nom complet</label>
+	<div>
+
+		<input type="text" class="form-control-1" style="font-size: 0.85rem;"  formControlName="fullName" placeholder="Votre nom complet" />
+		<small class="text-danger" *ngIf="f['fullName'].touched && f['fullName'].hasError('required')">
+			Le nom complet est requis.
+		</small>
+	</div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+	<div>
+
+		<input type="email" class="form-control-1" style="font-size: 0.85rem;"  formControlName="email" placeholder="Votre email" />
+		<small class="text-danger" *ngIf="f['email'].touched && f['email'].hasError('required')">
+			L'email est requis.
+		</small>
+		<small class="text-danger" *ngIf="f['email'].touched && f['email'].hasError('email')">
+			L'email est invalide.
+		</small>
+	</div>
+  </div>
+
+
+
+  <div class="mb-3">
+    <label class="form-label">Mot de Passe</label>
+    <div class="input-group">
+      <input [type]="showPassword ? 'text' : 'password'" class="form-control-1" style="font-size: 0.85rem;"  formControlName="password" placeholder="Mot de Passe" />
+      <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+        <i class="bi" [class]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+      </button>
+    </div>
+    <small class="text-danger" *ngIf="f['password'].touched && f['password'].hasError('required')">
+      Le mot de passe est requis.
+    </small>
+    <small class="text-danger" *ngIf="f['password'].touched && f['password'].hasError('minlength')">
+      Minimum 6 caractères.
+    </small>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Confirmer Mot de Passe</label>
+       <div class="input-group">
+           <input [type]="showComfiPassword ?'text':'password'"style="font-size: 0.85rem;"  class="form-control-1" formControlName="confirmPassword" placeholder="Confirmez le mot de passe" />
+      <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPassword()">
+        <i class="bi" [class]="showComfiPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+      </button>
+       </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+  <button type="submit" class="btn btn-primary-custom w-100 text-white" [disabled]="loading">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    Créer un compte
+  </button>
+</form>
+
+    
+</app-auth-form>
+
+	</div>
+</div>
+<!--end wrapper-->

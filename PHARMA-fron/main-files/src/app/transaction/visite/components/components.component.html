@@ -1,0 +1,59 @@
+<div *ngIf="visites.length === 0" class="text-center my-5">
+  <h5 class="text-muted">No visites available.</h5>
+</div>
+<div *ngIf="visites.length > 0">
+<div *ngFor="let group of visites" class="mb-4">
+  <h4 class="mb-3  text-decoration-underline   ">{{ group.title }} 
+    
+  </h4>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4 ">
+    <div class="col" *ngFor="let visite of group.items">
+    <div class="card  shadow-sm" style="border-radius: 8px;">
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            
+            <div class="me-auto">
+                <span class="text-primary fw-bold" style="font-size: 0.85rem;">
+                    #Pharmacie N° {{ visite.id | slice:0:4 }}
+                </span> 
+                 <h5 class="card-title fw-bold mb-0">{{ visite.pharamcieBasicInfo.name }}</h5>
+                
+                <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                    {{ visite.pharamcieBasicInfo.address }}
+                </p>
+            </div>
+
+   
+
+           <div class="d-flex gap-2">
+  <!-- Edit Button -->
+  <button class="btn p-0 text-primary" type="button" title="Modifier" (click)="editVisite(visite)">
+    <i class="bi bi-pencil fs-5"></i>
+  </button>
+
+  <!-- Delete Button -->
+  <button class="btn p-0 text-danger" type="button" title="Supprimer" (click)="deleteVisite(visite)">
+    <i class="bi bi-trash fs-5"></i>
+  </button>
+</div>
+        </div>
+<p class="card-text text-muted" style="line-height: 1.4;">
+            {{ visite.description }}
+        </p>
+        <p class="card-text mb-3" style="font-size: 0.9rem;">
+            Cree par 
+            <span class="fw-bold">{{ visite.delegueteInfo.fullName }}</span> 
+          
+        </p>
+
+        
+    </div>
+</div>
+    </div>
+  </div>
+  </div>
+
+
+</div>

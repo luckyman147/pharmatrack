@@ -1,0 +1,94 @@
+$colors: (
+  primary: #00A389,
+  secondary: #58CDFF,
+  success: #22c55e,
+  danger: #ef4444,
+  warning: #f59e0b,
+  body: #464255,
+  info: #0ea5e9,
+  light: #ffffff,
+  dark: #0f172a
+);
+
+.card {
+  margin-top: 1.5rem;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .12);
+  margin-bottom: 1.5rem;
+  border-radius: 15px;
+  border: 0 solid transparent;
+}
+
+.btn-primary-custom {
+  background-color: map-get($colors, primary);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  border-radius: 15px;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: darken(map-get($colors, primary), 5%);
+  }
+
+  p {
+    color: white;
+  }
+}
+
+.form-label {
+  color: black;
+  font-weight: 500;
+}
+.btn-outline-secondary{
+  border-radius: 15px;
+}
+
+
+.form-control-1 {
+  border-radius: 15px;
+
+  background-color: map-get($colors, light);
+  border: 1px solid lighten(map-get($colors, dark), 60%);
+height: 50px;
+
+  font-family: 'Poppins', sans-serif;
+  color: map-get($colors, dark);
+
+  &::placeholder {
+    color: #000000; // grey placeholder
+    font-style: italic;
+    transition: color 0.3s ease;
+  }
+
+  &:focus::placeholder {
+    color: lighten(#9ca3af, 10%);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: map-get($colors, primary);
+    box-shadow: 0 0 4px rgba(0, 163, 137, 0.3);
+  }
+}
+
+a {
+  text-decoration: underline;
+  color: map-get($colors, info);
+  font-weight: 500;
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: darken(map-get($colors, info), 10%);
+  }
+}
+
+p{
+  font-size: small;
+  color: map-get($map: $colors, $key: dark);
+
+}
+.card-footer {
+ 
+}

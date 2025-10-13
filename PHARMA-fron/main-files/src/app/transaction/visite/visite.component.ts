@@ -1,0 +1,113 @@
+import { Component, OnInit } from '@angular/core';
+import { VisiteService } from './visite.service';
+import { GroupedResult } from './models/GroupedResult';
+import { PaginatedResult } from './models/PaginatedResult';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Visite } from './models/Visite';
+
+@Component({
+  selector: 'app-visite',
+  templateUrl: './visite.component.html',
+  styleUrls: ['./visite.component.scss'],
+})
+export class VisiteComponent implements OnInit {
+  visites$!: Observable<GroupedResult[]>; // 👈 Used with async pipe
+
+  filterForm!: FormGroup;
+  pageIndex: number = 0;
+  pageSize: number = 5;
+  totalCount: number = 0;
+  totalPages: number = 0;
+  pageNumbers: number[] = [];
+
+  constructor(private visiteService: VisiteService, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+        this.filterForm = this.fb.group({
+          startDate: [null],
+          endDate: [null],
+        });
+
+    this.loadDefaultVisites();
+  }
+  applyFilters(): void {
+    console.log('Start Date:', this.filterForm.get('startDate')?.value);
+    console.log('End Date:', this.filterForm.get('endDate')?.value);
+    this.pageIndex = 0;
+
+    this.loadDefaultVisites();
+  }
+  deleteVisite(visite: Visite): void {
+    this.visiteService.deleteVisite(visite.id).subscribe(() => {
+      this.loadDefaultVisites();
+    });
+  }
+  loadDefaultVisites(): void {
+        const startDate = this.filterForm.value.startDate;
+        const endDate = this.filterForm.value.endDate;
+    this.visites$ = this.visiteService
+      .getVisites(this.pageIndex, this.pageSize, startDate,endDate)
+      .pipe(
+        map((result: any) => {
+          const visites = result.visites ?? result;
+
+          // 👇 Extract pagination data
+          this.totalCount = visites.count;
+          this.pageSize = visites.pageSize;
+          this.pageIndex = visites.pageIndex;
+          this.totalPages = Math.ceil(visites.count / visites.pageSize);
+
+          // 👇 Generate page numbers
+          this.updatePageNumbers(); // ✅ call helper for smart pagination
+
+          console.log('Paginated Result:', visites);
+          return visites.data ?? [];
+        })
+      );
+  }
+  private updatePageNumbers(): void {
+    const maxVisible = 5; // how many page numbers to show
+    const half = Math.floor(maxVisible / 2);
+
+    let start = Math.max(0, this.pageIndex - half);
+    let end = Math.min(this.totalPages - 1, this.pageIndex + half);
+
+    // Adjust if near the start
+    if (this.pageIndex < half) {
+      end = Math.min(this.totalPages - 1, maxVisible - 1);
+    }
+
+    // Adjust if near the end
+    if (this.pageIndex + half >= this.totalPages) {
+      start = Math.max(0, this.totalPages - maxVisible);
+    }
+
+    this.pageNumbers = [];
+    for (let i = start; i <= end; i++) {
+      this.pageNumbers.push(i);
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.pageIndex = page;
+      this.loadDefaultVisites();
+    }
+  }
+
+  nextPage(): void {
+    if (this.pageIndex < this.totalPages - 1) {
+      this.pageIndex++;
+      this.loadDefaultVisites();
+    }
+  }
+
+  prevPage(): void {
+    if (this.pageIndex > 0) {
+      this.pageIndex--;
+      this.loadDefaultVisites();
+    }
+  }
+}
