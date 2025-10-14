@@ -22,6 +22,18 @@ builder.Services.AddAuthentication(
 
 )
 ;
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // your Angular app
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // needed if you use cookies
+        });
+});
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -48,8 +60,8 @@ if (app.Environment.IsDevelopment())
 app.UseSession();
 app.UseApiServices();
 app.UseAuthentication();
-app.MapControllers();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 app.UseHttpsRedirection();
 

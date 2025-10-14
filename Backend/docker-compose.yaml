@@ -11,7 +11,21 @@ services:
       - "27017:27017"
     volumes:
       - mongodata:/var/lib/mongodb/data
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    command: start-dev
+    environment:
+      KC_DB: dev-mem
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - pharmanet
 
 volumes:
 
   mongodata:
+networks:
+  pharmanet:
+    driver: bridge

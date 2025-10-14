@@ -1,0 +1,23 @@
+<div class="d-flex vh-100">
+  
+  <!-- 1. Sidebar Column (Fixed width defined inside app-sidebar component) -->
+  <!-- We remove text-white as the sidebar image indicated a light theme -->
+  <app-sidebar class="flex-shrink-0"></app-sidebar>
+
+  <!-- 2. Main Content Column (Takes remaining width and manages its internal vertical layout) -->
+  <div class="flex-grow-1 d-flex flex-column">
+    
+    <!-- Navbar (Fixed at the top of the column) -->
+    <app-navbar class="shadow-sm flex-shrink-0"></app-navbar>
+    
+    <!-- Page content (Takes all available vertical space and is scrollable) -->
+    <main class="flex-grow-1 container-fluid py-3 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer (Fixed at the bottom of the column) -->
+    <!-- You might choose to remove the footer if the main content scrolls, as it will often be off-screen. -->
+    <app-footer class="mt-auto bg-light border-top flex-shrink-0"></app-footer>
+  </div>
+
+</div>

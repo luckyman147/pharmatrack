@@ -1,0 +1,51 @@
+.action-btn {
+  /* Dimensions to make it a square */
+  width: 36px;
+  height: 36px;
+
+  /* Background color matching the image (a light gray) */
+  background-color: #d8d8d8;
+
+  /* Ensure it is a nice rounded square */
+  border-radius: 8px !important;
+
+  /* Remove default button border */
+  border: none;
+
+  /* Optional: Ensure a clean look on focus/hover */
+  transition: none;
+}
+
+/* Style for the container of the icon button */
+.icon-btn {
+  /* To give it a square shape and rounded border */
+  width: 38px;
+  height: 38px;
+  border: 1px solid #f1f1f1; /* Light border around the icon */
+  border-radius: 8px; /* Rounded corners */
+  background-color: white; /* White background */
+
+  /* Center the icon */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Custom badge styling to match the light blue color and shadow in the image */
+.notification-badge {
+  /* Light Blue Background */
+  background-color: #55acee !important;
+
+  /* Smaller, white text */
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  /* Adjust badge position (optional fine-tuning) */
+  right: 5px;
+  top: 5px;
+}
+
+/* Style for the main title to match the dark color */
+.text-dark-emphasis {
+  color: #383152 !important;
+}

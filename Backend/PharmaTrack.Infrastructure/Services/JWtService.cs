@@ -50,4 +50,49 @@ public class JwtService : IJwtService
         var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
         return Convert.ToHexString(bytes); // .NET 5+
     }
+
+    public ClaimsPrincipal? ValidateAccessToken(string token, bool validateLifetime = true)
+    {
+        if (string.IsNullOrEmpty(token)) return null;
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_opts.Secret);
+
+        var parameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = _opts.Issuer,
+            ValidateAudience = true,
+            ValidAudience = _opts.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateLifetime = validateLifetime,
+            ClockSkew = TimeSpan.Zero // remove default 5 min skew
+        };
+
+        try
+        {
+            var principal = tokenHandler.ValidateToken(token, parameters, out SecurityToken validatedToken);
+
+            // Optional: check token type
+            if (validatedToken is JwtSecurityToken jwtToken &&
+                jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return principal;
+            }
+
+            return null;
+        }
+        catch (SecurityTokenExpiredException)
+        {
+            if (validateLifetime) return null; // token expired
+            // if validateLifetime is false, we return principal anyway (to use for refresh)
+            var principal = tokenHandler.ValidateToken(token, parameters, out _);
+            return principal;
+        }
+        catch
+        {
+            return null; // invalid token
+        }
+    }
 }

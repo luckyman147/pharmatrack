@@ -5,6 +5,7 @@ using PharmaTrack.Application.Data;
 using PharmaTrack.Application.Interfaces;
 using PharmaTrack.Application.Interfaces.services;
 using PharmaTrack.Domain.Models;
+using PharmaTrack.Domain.Models.user;
 using PharmaTrack.Domain.ValueObject;
 using PharmaTrack.Shared.CQRS;
 
@@ -38,34 +39,57 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Register
             _logger.LogWarning("Registration attempt failed: Email {Email} already in use", dto.Email);
             throw new Exception("Email already in use");
         }
-
+   var existingAdmin = await _userRepository.GetAdminAsync();
             // Generate unique user code
             var code = "U" + Guid.NewGuid().ToString("N")[..6].ToUpper();
 
             // Hash password
             var hash = _hasher.HashPassword(dto.Password);
 
-            var user = new User(
-                id:  Guid.NewGuid(),
-                code: code,
-                fullName: dto.FullName,
-                email: dto.Email,
-                passwordHash: hash,
-                role: "Delegue"
-            );
+           User user;
 
-            // Save to MongoDB
-            await _userRepository.AddAsync(user );
+            if (existingAdmin == null)
+            {
+                // First registered user becomes Admin
+                user = new Admin(id: Guid.NewGuid(),
+                                 code: code,
+                                 fullName: dto.FullName,
+                                 email: dto.Email,
+                                 passwordHash: hash,
+                                 permissionsLevel: "Super");
 
+                _logger.LogInformation("No admin found — assigning this user as the system Admin.");
+            }
+            else
+            {
+                // All next users are Delegues by default
+                user = new Delegue(
+                    id: Guid.NewGuid(),
+                    code: code,
+                    fullName: dto.FullName,
+                    email: dto.Email,
+                    isActive:true,
+                    passwordHash: hash,
+                    salary:  0
+                );
+
+                _logger.LogInformation("User registered as Delegue.");
+            }
+
+            await _userRepository.AddAsync(user);
+
+            _logger.LogInformation("User {Email} registered successfully with Code: {Code}", user.Email, user.Code);
+
+            // Optionally send welcome email
+            // await _email.SendEmailAsync(user.Email, "Welcome", $"Welcome {user.FullName}, your code: {user.Code}");
+
+            return new RegisterUserResult(user.Code);
+        
             // Send welcome/confirmation email
       //todo:later
       //       await _email.SendEmailAsync(user.Email, "Welcome", $"Welcome {user.FullName}, your code: {user.Code}");
 
-            return new RegisterUserResult(
-            
-                 user.Code
-            
-            );
+        
         }
     
 }

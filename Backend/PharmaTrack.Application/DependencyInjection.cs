@@ -2,6 +2,7 @@
 
 
 using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaTrack.Shared.Behaviours;
@@ -18,6 +19,7 @@ namespace PharmaTrack.Application;
                 ctg.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 ctg.AddOpenBehavior(typeof(LoggingBehaviour<,>));
             });
+                    services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             return services;
         }
 

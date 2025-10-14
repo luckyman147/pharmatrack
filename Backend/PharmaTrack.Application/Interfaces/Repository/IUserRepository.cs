@@ -1,5 +1,6 @@
 using System;
 using PharmaTrack.Domain.Models;
+using PharmaTrack.Domain.Models.user;
 
 namespace PharmaTrack.Application.Interfaces;
 
@@ -13,4 +14,6 @@ namespace PharmaTrack.Application.Interfaces;
         Task UpdateAsync(User user);
         Task DeleteAsync(Guid id);
         Task<IEnumerable<User>> GetAllAsync();
-    }
+    Task<List<Delegue>> GetDeleguesAsync(bool?  isActive);
+    Task<Admin?> GetAdminAsync();
+}

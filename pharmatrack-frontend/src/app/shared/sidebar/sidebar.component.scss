@@ -1,0 +1,75 @@
+/* =========================================================================
+   Custom Sidebar Theme Styles
+   ========================================================================= */
+
+/* Use the SASS variables from your :root block */
+$active-bg: var(--color-info-15);
+$active-text: var(--color-info);
+$inactive-icon: #B9BBBD; // Specific color requested for inactive icon
+$inactive-text: var(--color-dark); // text color black, using your variable
+$link-font-size: 1rem; // 16px font size requested
+
+/* --- Inactive Link Styling (Default state) --- */
+.nav-link {
+  color: $inactive-text; /* Black text from --color-dark */
+  font-size: $link-font-size; /* 16px */
+  font-weight: 400; /* Normal Poppins weight (400) */
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease-in-out;
+  
+  /* Inactive Icon Color: B9BBBD */
+  i,
+  span[class$="me-2"] {
+    color: $inactive-icon; 
+    font-size: 1.25rem;
+    transition: color 0.2s ease-in-out;
+  }
+}
+
+/* Hover Effect */
+.nav-link:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.04); /* Subtle light gray hover */
+  color: $inactive-text; /* Keep text black on hover */
+}
+
+
+/* --- Active Link Styling (Highest Priority) --- */
+.nav-link.active {
+  /* BACKGROUND & BORDER RADIUS */
+  background-color: $active-bg !important; /* Uses --color-info-15 */
+  border-radius: 24px !important; /* Requested 24px border radius */
+  
+  /* TEXT STYLING */
+  color: $active-text !important; /* Uses --color-info */
+  font-weight: 500; /* Slightly bolder for active state */
+  
+  /* ICON STYLING */
+  i,
+  span[class$="me-2"] {
+    color: $active-text !important; /* Active icon color: --color-info */
+  }
+}
+
+/* --- Section Header Styling (Adopted from your previous attempt) --- */
+.sidebar-heading {
+  color: #464255; /* Using a darker grey for visibility */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* --- Optional: Logout link (If you include a logout-link class) --- */
+.logout-link {
+  color: var(--logout-color, #ef4444) !important;
+}
+.logout-link:hover {
+  background-color: #fcebeb; /* Very light red hover */
+}
+
+/* --- Global Poppins Font Setting (Ensure this is in your global styles) --- */
+.light-theme {
+  --bs-body-font-family: 'Poppins', sans-serif;
+  --bs-body-font-weight: 400;
+  // Note: body-bg is set to a dark color in your input, 
+  // but the sidebar is light-themed. Be mindful of this conflict.
+}

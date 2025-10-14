@@ -32,6 +32,8 @@ services.Configure<JwtOptions>(
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ISessionRepository, UserSessionRepository>();
+            services.AddScoped<IPharamcieRepository, PharmacieRepository>();
+            services.AddScoped<IVisiteRepository, VisiteRepository>();
 
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();

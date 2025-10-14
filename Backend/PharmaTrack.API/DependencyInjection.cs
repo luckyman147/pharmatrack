@@ -21,11 +21,8 @@ namespace PharmaTrack.API;
        {
            app.MapCarter();
 
-           app.UseExceptionHandler(options =>
-           { 
-            
-           });
-         
+      
+         app.UseExceptionHandler(options => { });
 
            return app;
        }

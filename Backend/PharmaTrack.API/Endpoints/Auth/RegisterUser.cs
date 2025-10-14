@@ -15,7 +15,7 @@ public class RegisterUser : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/Authenication/Register", async ([FromBody] RegisterUserRequest request, ISender mediator) =>
+        app.MapPost("/Authentication/Register", async ([FromBody] RegisterUserRequest request, ISender mediator) =>
         {
 
           Console.WriteLine("RegisterUser endpoint called");    

@@ -1,20 +1,23 @@
 using System;
+using MongoDB.Bson.Serialization.Attributes;
 using PharmaTrack.Domain.Abstractions;
 using PharmaTrack.Domain.Models.user;
 using PharmaTrack.Domain.ValueObject;
 
 namespace PharmaTrack.Domain.Models;
 
-public class User : Aggregate<Guid>
+    [BsonKnownTypes(typeof(Admin), typeof(Delegue))]
+public abstract class User : Entity<Guid>
 {
-    public string Code { get; private set; }           // login code / unique identifier
-    public string FullName { get; private set; }
-    public string Email { get; private set; }
+    public string Code { get;  set; }           // login code / unique identifier
+    public string FullName { get;  set; }
+    public string Email { get;  set; }
     public string PasswordHash { get; set; }
-    public string Role { get; private set; }
-    public bool EmailConfirmed { get; private set; }
+    public string Role => GetType().Name;
 
-    public UserProfile Profile { get; private set; }
+    public bool EmailConfirmed { get;  set; }
+
+    public UserProfile Profile { get;  set; }
     // For Mongo you may want a parameterless ctor
     public User() { }
 
@@ -25,7 +28,7 @@ public class User : Aggregate<Guid>
         FullName = fullName;
         Email = email;
         PasswordHash = passwordHash;
-        Role = role;
+  
         EmailConfirmed = false;
     }
 

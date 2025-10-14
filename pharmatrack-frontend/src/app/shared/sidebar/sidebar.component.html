@@ -1,0 +1,70 @@
+<div class="d-flex flex-column flex-shrink-0  light-theme border-end min-vh-100" style="width: 250px;">
+  <div class="d-flex flex-column align-items-center mb-3">
+    <img src="assets/images/logo.png" alt="Logo" width="200" class="p-1" />
+  </div>
+
+  <ul class="nav nav-pills flex-column mb-auto">
+
+    <ng-container *ngFor="let section of menuSections()">
+      <h6 *ngIf="section.header" class="sidebar-heading px-3 mt-4 mb-1 text-uppercase text-muted small fw-bold">
+        {{ section.header }}
+      </h6>
+
+      <hr *ngIf="section.separator" class="my-4 mx-3">
+
+      <li *ngFor="let menuItem of section.items" class="nav-item">
+
+        <ng-container *ngIf="!menuItem.submenu || menuItem.submenu.length === 0">
+          <a [routerLink]="!menuItem.isExternalLink ? [menuItem.path] : null"
+             [href]="menuItem.isExternalLink ? menuItem.path : null"
+             [target]="menuItem.isExternalLink ? '_blank' : undefined"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}"
+             class="nav-link d-flex align-items-center rounded-3">
+
+            <ng-container *ngIf="menuItem.isSvgIcon; else fontIcon">
+              <img class="me-2" [innerHTML]="menuItem.icon"></img>
+            </ng-container>
+            <ng-template #fontIcon>
+              <i [ngClass]="menuItem.icon + ' me-2'"></i>
+            </ng-template>
+
+            <span class="flex-grow-1  ">{{ menuItem.title }}</span>
+
+            <span *ngIf="menuItem.badgeText"
+                  class="badge rounded-pill ms-auto"
+                  [ngClass]="menuItem.badgeClass || 'bg-primary'">
+              {{ menuItem.badgeText }}
+            </span>
+          </a>
+        </ng-container>
+
+        <div *ngIf="menuItem.submenu && menuItem.submenu.length > 0">
+          <a class="nav-link d-flex justify-content-between align-items-center rounded-3"
+             data-bs-toggle="collapse"
+             [attr.href]="'#' + menuItem.title.replace(' ', '-')"
+             role="button"
+             aria-expanded="false">
+            <span>
+              <i [ngClass]="menuItem.icon + ' me-2'"></i>
+              {{ menuItem.title }}
+            </span>
+            <i class="bi bi-chevron-down small"></i>
+          </a>
+
+          <div class="collapse ps-3" [id]="menuItem.title.replace(' ', '-')">
+            <ul class="nav flex-column">
+              <li *ngFor="let subItem of menuItem.submenu">
+                <a [routerLink]="[subItem.path]" routerLinkActive="active" class="nav-link d-flex align-items-center rounded-3">
+                  <i [ngClass]="subItem.icon + ' me-2'"></i>
+                  {{ subItem.title }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </li>
+    </ng-container>
+  </ul>
+</div>

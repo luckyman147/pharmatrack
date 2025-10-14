@@ -7,16 +7,16 @@ export class AuthFormService {
 
   createLoginForm(): FormGroup {
     return this.fb.group({
-      code: ['', [Validators.required, Validators.maxLength(6)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      code: ['', [Validators.required, Validators.maxLength(7)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
   createRegisterForm(): FormGroup {
     return this.fb.group({
       fullName: ['', [Validators.required]],
-      code: ['', [Validators.required, Validators.maxLength(6)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
     });
   }

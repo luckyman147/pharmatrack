@@ -1,3 +1,44 @@
-<div class="login-page d-flex align-items-center justify-content-center vh-100">
-  <app-auth-form mode="login"></app-auth-form>
-</div>
+  <app-auth-form title="Connectez-vous" >
+
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Login</label>
+    <input type="text" class="form-control" style="font-size: 0.85rem;"  formControlName="code" placeholder="Identifiant ici" />
+    <small class="text-danger" *ngIf="f['code'].touched && f['code'].hasError('required')">
+      L’identifiant est requis.
+    </small>
+    <small class="text-danger" *ngIf="f['code'].touched && f['code'].hasError('maxlength')">
+      L’identifiant doit contenir au maximum 6 caractères.
+    </small>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Mot de Passe</label>
+    <div class="input-group">
+      <input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password" placeholder="Mot de Passe ici" />
+      <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+        <i class="bi" [class]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+      </button>
+    </div>
+    <small class="text-danger" *ngIf="f['password'].touched && f['password'].hasError('required')">
+      Le mot de passe est requis.
+    </small>
+    <small class="text-danger" *ngIf="f['password'].touched && f['password'].hasError('minlength')">
+      Le mot de passe doit contenir au moins 6 caractères.
+    </small>
+  </div>
+
+  <div class="mb-3">
+    <a routerLink="/auth/forgot-password" class="small">Mot de passe oublié?</a>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+  <button type="submit" class="btn btn-primary-custom w-100" [disabled]="loading">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    Se connecter
+  </button>
+</form>
+
+
+  </app-auth-form>

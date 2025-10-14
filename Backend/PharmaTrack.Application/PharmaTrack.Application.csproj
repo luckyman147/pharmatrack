@@ -17,7 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\user\deleguete\" />
     <Folder Include="configuration\" />
+    <Folder Include="DTOs\auth\" />
+    <Folder Include="Queries\VisitesQueries\GetFiltredGroupedVisites\" />
+    <Folder Include="Queries\VisitesQueries\GetVisitesOfPharmacie\" />
   </ItemGroup>
 
   <PropertyGroup>
