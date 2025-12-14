@@ -12,6 +12,8 @@ public class PharmacieFilter
     public string? Horaire { get; set; }            // Optional filter by schedule
     public string? Zone { get; set; }                // Optional filter by address fields
     public string? Gouvernerat { get; set; }
+
+    public string? ByName { get; set; }           // Optional search by name (partial match)
     public string? Delegation { get; set; }
 
     public int PageIndex { get; set; } = 0;

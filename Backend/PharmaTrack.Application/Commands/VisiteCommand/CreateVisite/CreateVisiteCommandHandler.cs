@@ -10,6 +10,7 @@ public class CreateVisiteCommandHandler(IVisiteRepository visiteRepository) : IC
     private readonly IVisiteRepository _visiteRepository = visiteRepository;
     public async Task<CreateVisiteResult> Handle(CreateVisiteCommand request, CancellationToken cancellationToken)
     {
+        Console.WriteLine(request.createVisiteDto.VisitDate);
         var visite = new PharmaTrack.Domain.Models.Visite.Visite
         {
             id = Guid.NewGuid(),

@@ -6,18 +6,14 @@ namespace PharmaTrack.Domain.Models;
 public class Delegue : User
 {
     public decimal Salary { get; set; }
+    public decimal Commission { get; set; }
     public bool IsActive { get; set; }
 
-    public Delegue(Guid id, string code, string fullName, string email, string passwordHash, decimal salary,bool isActive)
+    public Delegue(Guid id, string code, string fullName, string email, string passwordHash, decimal salary, decimal commission, bool isActive)
+        : base(id, code, fullName, email, passwordHash, "Delegue")
     {
-        this.id = id;
-        this.Code = code;
-        FullName = fullName;
-        Email = email;
-        PasswordHash = passwordHash;
+        Salary = salary;
+        Commission = commission;
         IsActive = isActive;
-        EmailConfirmed = false;
-        this.Salary = salary;
     }
-    
 }

@@ -5,6 +5,10 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:5176', // replace with your dev backend
+  cloudinary: {
+    cloudName: 'your_cloud_name',
+    uploadPreset: 'your_upload_preset'
+  }
 };
 
 /*

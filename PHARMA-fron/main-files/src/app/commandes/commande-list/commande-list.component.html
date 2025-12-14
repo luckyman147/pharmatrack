@@ -1,0 +1,212 @@
+<div class="container-fluid py-4">
+<!--breadcrumb-->
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="breadcrumb-title pe-3">Transaction</div>
+	<div class="ps-3">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0 p-0">
+				<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-cart"></i></a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Les Commandes</li>
+			</ol>
+		</nav>
+	</div>
+    <div class="ms-auto">
+        <button class="btn btn-light" (click)="createCommande()">
+            <i class="bi bi-plus-circle me-2"></i>
+            Nouvelle Commande
+        </button>
+    </div>
+</div>
+<!--end breadcrumb-->
+
+  <!-- Filters Section -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0">Filtres</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="filterForm" (ngSubmit)="onFilterChange()">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Statut</label>
+            <select class="form-select" formControlName="status" (change)="onFilterChange()">
+              <option value="">Tous</option>
+              <option *ngFor="let status of statusOptions" [value]="status">
+                {{ getStatusLabel(status) }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Date Début</label>
+            <input type="date" class="form-control" formControlName="startDate" (change)="onFilterChange()" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Date Fin</label>
+            <input type="date" class="form-control" formControlName="endDate" (change)="onFilterChange()" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Montant Min</label>
+            <input type="number" class="form-control" formControlName="minAmount" placeholder="0.00" (change)="onFilterChange()" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Montant Max</label>
+            <input type="number" class="form-control" formControlName="maxAmount" placeholder="0.00" (change)="onFilterChange()" />
+          </div>
+
+          <div class="col-md-1 d-flex align-items-end">
+            <button type="button" class="btn btn-outline-secondary w-100" (click)="clearFilters()">
+              Réinitialiser
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close" (click)="error = null"></button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Commandes Table -->
+  <div *ngIf="!loading" class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Code</th>
+              <th>Pharmacie</th>
+              <th>Date</th>
+              <th>Statut</th>
+              <th>Lignes</th>
+              <th>Montant Total</th>
+              <th>Documents</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="commandes.length === 0">
+              <td colspan="8" class="text-center text-muted py-4">
+                Aucune commande trouvée
+              </td>
+            </tr>
+            <tr 
+            (click)="viewCommande(commande.id)"
+            *ngFor="let commande of commandes">
+              <td><strong>#{{ commande.codeComm }}</strong></td>
+              <td>
+                <div>{{ commande.pharamcieInfo.name }}</div>
+                <small class="text-muted">{{ commande.userInfo.fullName }}</small>
+              </td>
+              <td>{{ formatDate(commande.orderDate) }}</td>
+              <td>
+                <span [ngClass]="getStatusBadgeClass(commande.status)">
+                  {{ getStatusLabel(commande.status) }}
+                </span>
+              </td>
+              <td>{{ commande.totalLines }} Produits</td>
+              <td class="fw-bold">{{ formatCurrency(commande.totalAmount) }}</td>
+              <td>
+                <div class="d-flex flex-column gap-1">
+                  <a *ngIf="commande.originalDocumentPath" 
+                     [href]="commande.originalDocumentPath" 
+                     target="_blank"
+                     class="btn btn-sm btn-outline-info"
+                     title="Télécharger document original">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i>
+                    Original
+                  </a>
+                  <a *ngIf="commande.exportedDocumentPath" 
+                     [href]="commande.exportedDocumentPath" 
+                     target="_blank"
+                     class="btn btn-sm btn-outline-success"
+                     title="Télécharger document exporté">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i>
+                    Exporté
+                  </a>
+                  <span *ngIf="!commande.originalDocumentPath && !commande.exportedDocumentPath" 
+                        class="text-muted small">
+                    Aucun
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group">
+             
+                  <button 
+                    class="btn btn-outline-primary" 
+                    (click)="editCommande(commande.id)"
+                    [disabled]="commande.status === StatusCommande.Valide"
+                    title="Modifier">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button 
+                    class="btn btn-outline-danger" 
+                    (click)="deleteCommande(commande)"
+                    [disabled]="commande.status === StatusCommande.Valide"
+                    title="Supprimer">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div>
+          <span class="text-muted">
+            Affichage {{ pageIndex * pageSize + 1 }} - 
+            {{ Math.min((pageIndex + 1) * pageSize, totalCount) }} 
+            sur {{ totalCount }} commandes
+          </span>
+        </div>
+        
+        <div class="d-flex align-items-center gap-2">
+    <select 
+    class="form-select form-select-sm"  
+    style="width: auto; color: #0d6efd; font-weight: bold;" [value]="pageSize"
+    (change)="onPageSizeChange(+$any($event.target).value)">
+    <option [value]="5" style="color: #000;">5 par page</option>
+    <option [value]="10" style="color: #000;">10 par page</option>
+    <option [value]="20" style="color: #000;">20 par page</option>
+    <option [value]="50" style="color: #000;">50 par page</option>
+</select>
+          <nav>
+            <ul class="pagination pagination-sm mb-0">
+              <li class="page-item" [class.disabled]="pageIndex === 0">
+                <button class="page-link" (click)="onPageChange(pageIndex - 1)">
+                  Précédent
+                </button>
+              </li>
+              <li class="page-item active">
+                <span class="page-link">{{ pageIndex + 1 }} / {{ totalPages }}</span>
+              </li>
+              <li class="page-item" [class.disabled]="pageIndex >= totalPages - 1">
+                <button class="page-link" (click)="onPageChange(pageIndex + 1)">
+                  Suivant
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

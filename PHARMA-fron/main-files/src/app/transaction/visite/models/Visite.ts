@@ -2,7 +2,7 @@ import { DelegueInfo } from "./DelegueInfo";
 import { PharmacieBasicInfo } from "./PharmacieBasicInfo";
 
 export interface Visite {
-  id: string;
+  id: string | null;
   visitDate: string;
   description: string;
   reportUrl: string | null;

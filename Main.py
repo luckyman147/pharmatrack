@@ -140,14 +140,16 @@ options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 wait = WebDriverWait(driver, 10)
-all_pharmacies = []
 filename = "example_page_source.html" 
+all_pharmacies = []
 # Step 1: Go to main page
 driver.get("https://dpm.tn/dpm_pharm/asppharm/listgouv.php")
 with open(filename, "w", encoding="utf-8") as file:
         file.write(driver.page_source)
     
 print(f"Successfully saved page source to {filename}")
+
+
 try:
     # Wait and get governorate dropdown
     select_element = wait.until(EC.presence_of_element_located((By.NAME, "cod_gouv")))

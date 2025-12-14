@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { VisiteComponent } from './visite/visite.component';
 import { OrderComponent } from './order/order.component';
 import { PharmaciesComponent } from './pharmacies/pharmacies.component';
+import { CreateUpdateVisteComponent } from './create-update-viste/create-update-viste.component';
 
 
 const routes: Routes = [
@@ -16,9 +17,20 @@ const routes: Routes = [
           title: 'Visites'
         }
       },
+{
+  path: 'Creer-Visite',
+  component: CreateUpdateVisteComponent,
+  data: { title: 'Créer une Visite' },
+},
+{
+  path: 'Modifier-Visite/:id',
+  component: CreateUpdateVisteComponent,
+  data: { title: 'Modifier une Visite' },
+},
+
       {
         path: 'Commandes',
-        component: OrderComponent,
+        loadChildren: () => import('../commandes/commandes.module').then(m => m.CommandesModule),
         data: {
           title: 'Commandes'
         }

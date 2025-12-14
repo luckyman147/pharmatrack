@@ -1,0 +1,18 @@
+.selectable-card {
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.selectable-card:hover {
+  border-color: #58CDFF; /* light blue on hover */
+  box-shadow: 0 0 10px rgba(88, 205, 255, 0.2);
+}
+
+.selectable-card.selected {
+  border-color: #58CDFF; /* light blue on hover */
+  box-shadow: 0 0 10px rgba(88, 205, 255, 0.3);
+}
+.text-blue {
+  color: #58CDFF;
+}

@@ -1,0 +1,68 @@
+services:
+  # angular-client:
+  #   build:
+  #     context: PHARMA-fron\main-files
+  #     dockerfile: Dockerfile
+  #   container_name: angular-client
+  #   ports:
+  #     - "4200:80"
+  #   depends_on:
+  #     - dotnet-api
+  #   networks:
+  #     - pharmanet
+
+  dotnet-api:
+    build:
+      context: .
+      dockerfile: Backend/PharmaTrack.API/dockerfile
+    container_name: dotnet-api
+    ports:
+      - "5001:8080"
+    depends_on:
+      - mongo
+      - keycloak
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Jwt__AccessTokenSecret=80
+      - Jwt__Issuer=PharmaTrack.API
+      - Jwt__Audience=PharmaTrack.Client
+      - Jwt__Secret=3711709532bfd53acfe4d047b4b231826a9a19c80c3cc71a42cfce70d2e7002d
+      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopa@mongo:27017
+      - ConnectionStrings__DatabaseName=pharmatrack
+      - Keycloak__Authority=http://keycloak:8080/
+      - Keycloak__ClientId=pharmanet-backend
+      - Keycloak__ClientSecret=your-client-secret
+      - Keycloak__RequireHttpsMetadata=false
+    networks:
+      - pharmanet
+  mongo:
+    image: mongo
+
+    container_name: pharmatrack-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongopa
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/var/lib/mongodb/data
+    networks:
+      - pharmanet
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    command: start-dev
+    environment:
+      KC_DB: dev-mem
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
+    networks:
+      - pharmanet
+
+volumes:
+
+  mongodata:
+networks:
+  pharmanet:
+    driver: bridge

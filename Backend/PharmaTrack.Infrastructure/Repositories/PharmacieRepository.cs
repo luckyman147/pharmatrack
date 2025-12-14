@@ -1,5 +1,6 @@
 using System;
 using System.Formats.Asn1;
+using System.Text.RegularExpressions;
 using Microsoft.VisualBasic;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -62,12 +63,17 @@ private (FilterDefinition<Pharmacie> filter, HashSet<string> filteredFields) Bui
     var filters = new List<FilterDefinition<Pharmacie>>();
     var filteredFields = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-    if (!string.IsNullOrEmpty(filter.Type) &&
-        Enum.TryParse<PharmacieType>(filter.Type, true, out var typeEnum))
-    {
-        filters.Add(builder.Eq(p => p.PharmacieType, typeEnum));
-        filteredFields.Add("pharmacietype");
-    }
+    if (!string.IsNullOrEmpty(filter.ByName))
+        {
+            filters.Add(builder.Regex(p => p.Name, new BsonRegularExpression(filter.ByName, "i")));
+            filteredFields.Add("byname");
+        }       
+        if (!string.IsNullOrEmpty(filter.Type) &&
+            Enum.TryParse<PharmacieType>(filter.Type, true, out var typeEnum))
+        {
+            filters.Add(builder.Eq(p => p.PharmacieType, typeEnum));
+            filteredFields.Add("pharmacietype");
+        }
 
     if (!string.IsNullOrEmpty(filter.Horaire) &&
         Enum.TryParse<Horaire>(filter.Horaire, true, out var horaireEnum))
@@ -76,23 +82,24 @@ private (FilterDefinition<Pharmacie> filter, HashSet<string> filteredFields) Bui
         filteredFields.Add("horaire");
     }
 
-    if (!string.IsNullOrEmpty(filter.Zone))
-    {
-        filters.Add(builder.Eq(p => p.Location.Zone, filter.Zone));
-        filteredFields.Add("zone");
-    }
+   if (!string.IsNullOrEmpty(filter.Zone))
+{
+    filters.Add(builder.Regex(p => p.Location.Zone, new BsonRegularExpression($"^{Regex.Escape(filter.Zone)}$", "i")));
+    filteredFields.Add("zone");
+}
 
-    if (!string.IsNullOrEmpty(filter.Gouvernerat))
-    {
-        filters.Add(builder.Eq(p => p.Location.Gouvernerat, filter.Gouvernerat));
-        filteredFields.Add("gouvernerat");
-    }
+if (!string.IsNullOrEmpty(filter.Gouvernerat))
+{
+    filters.Add(builder.Regex(p => p.Location.Gouvernerat, new BsonRegularExpression($"^{Regex.Escape(filter.Gouvernerat)}$", "i")));
+    filteredFields.Add("gouvernerat");
+}
 
-    if (!string.IsNullOrEmpty(filter.Delegation))
-    {
-        filters.Add(builder.Eq(p => p.Location.delegation, filter.Delegation));
-        filteredFields.Add("delegation");
-    }
+if (!string.IsNullOrEmpty(filter.Delegation))
+{
+    filters.Add(builder.Regex(p => p.Location.delegation, new BsonRegularExpression($"^{Regex.Escape(filter.Delegation)}$", "i")));
+    filteredFields.Add("delegation");
+}
+
 
     var finalFilter = filters.Count > 0 ? builder.And(filters) : builder.Empty;
 Console.WriteLine("Filtered Fields: " + string.Join(", ", filteredFields));
@@ -131,7 +138,7 @@ private async Task<PaginationResult<object>> GetGroupedPharmaciesAsync(
 
     var grouped = results.Select(r => new PharmacieGroupResult
     {
-        Key = r["_id"].IsBsonNull ? "Inconnu" : r["_id"].ToString(),
+        Key = r["_id"].IsBsonNull ? "Inconnu" : r["_id"].ToString() ?? "Inconnu",
         Count = r["count"].AsInt32,
         Pharmacies = r["pharmacies"].AsBsonArray
             .Select(b => MongoDB.Bson.Serialization.BsonSerializer.Deserialize<Pharmacie>(b.AsBsonDocument))
@@ -149,7 +156,6 @@ private async Task<PaginationResult<object>> GetGroupedPharmaciesAsync(
         filter.PageIndex,
         filter.PageSize,
         totalCount,
-        (int)Math.Ceiling((double)totalCount / (filter.PageSize)    ),
         pagedGroups
     );
 }
@@ -169,7 +175,6 @@ private async Task<PaginationResult<object>> GetPaginatedPharmaciesAsync(
         filter.PageIndex,
         filter.PageSize,
         totalDocs,
-        (int)Math.Ceiling((double)totalDocs / filter.PageSize),
         pharmacies
     );
 }
@@ -221,7 +226,6 @@ if (!string.IsNullOrEmpty(filter.Horaire) &&
           filter.PageIndex,
             filter.PageSize,
             totalCount,
-          (int)Math.Round((double)totalCount / filter.PageSize),
         data
     );
         }
@@ -265,7 +269,7 @@ if (!string.IsNullOrEmpty(filter.Horaire) &&
         // Map BSON results to your domain model
         return results.Select(r => new PharmacieGroupResult
         {
-            Key = r["_id"].IsBsonNull ? "Inconnu" : r["_id"].ToString(),
+            Key = r["_id"].IsBsonNull ? "Inconnu" : r["_id"].ToString() ?? "Inconnu",
             Count = r["count"].AsInt32,
             Pharmacies = r["pharmacies"].AsBsonArray
                 .Select(b => MongoDB.Bson.Serialization.BsonSerializer.Deserialize<Pharmacie>(b.AsBsonDocument))

@@ -10,7 +10,7 @@ import { SharedModule } from "./shared/shared.module";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
@@ -25,29 +25,30 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 import * as $ from 'jquery';
+import { DepotsModule } from './depots/depots.module';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FullLayoutComponent,
-    ContentLayoutComponent,
-   
-  ],
+  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     NgbModule,
     HttpClientModule,
     NgbModule,
+
+    MatDialogModule,
     AppRoutingModule,
     SharedModule,
     // AgmCoreModule.forRoot({apiKey: 'AIzaSyDKXKdHQdtqgPVl2HI2RnUa_1bjCxRCQo4'}),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
   ],
   providers: [
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

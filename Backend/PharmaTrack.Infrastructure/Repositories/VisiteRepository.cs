@@ -20,7 +20,9 @@ public class VisiteRepository: IVisiteRepository
 
     public async Task CreateVisite(Visite visite)
     {
-        await _context.InsertOneAsync(visite);
+       visite.VisitDate = visite.VisitDate.AddDays(1);
+await _context.InsertOneAsync(visite);
+
     }
 
     public async Task DeleteVisite(Guid id)
@@ -33,7 +35,7 @@ public class VisiteRepository: IVisiteRepository
         return _context.Find(v => v.id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<PaginationResult<object>>> GetFiltredVisites()
+    public  Task<IEnumerable<PaginationResult<object>>> GetFiltredVisites()
     {   
         throw new NotImplementedException();
      }
@@ -53,15 +55,17 @@ public class VisiteRepository: IVisiteRepository
            request.PageIndex,
            request.PageSize,
            totalCount,
-           (int)Math.Ceiling((double)totalCount / request.PageSize),
               visites
         );
     }
 
     public async Task UpdateVisite(Visite visite)
     {
+               visite.VisitDate = visite.VisitDate.AddDays(1);
+
         await _context.ReplaceOneAsync(v => v.id == visite.id, visite);
     }
+
 
 public async Task<PaginationResult<object>> GetVisitesByDeleguesId(GetVisiteByDelegueDto dto)
 {
@@ -99,7 +103,6 @@ public async Task<PaginationResult<object>> GetVisitesByDeleguesId(GetVisiteByDe
         pageIndex,
         pageSize,
         (int)totalCount,
-        (int)Math.Ceiling((double)totalCount / pageSize),
         groupedResults
     );
 }
@@ -122,8 +125,22 @@ public async Task<PaginationResult<object>> GetVisitesByDeleguesId(GetVisiteByDe
         if (dto.endDate.HasValue)
         {
             var endOfDay = dto.endDate.Value.Date.AddDays(1).AddMilliseconds(-1);
-            dateFilters.Add(Builders<Visite>.Filter.Lte(k=>k.VisitDate, endOfDay));
+            dateFilters.Add(Builders<Visite>.Filter.Lte(k => k.VisitDate, endOfDay));
         }
+       if (!string.IsNullOrEmpty(dto.byName))
+{
+    // Create a case-insensitive regex filter for both fields
+    var regexFilter = new BsonRegularExpression(dto.byName, "i");
+
+    // Search by either pharmacie name OR visit description
+    var nameOrDescriptionFilter = Builders<Visite>.Filter.Or(
+        Builders<Visite>.Filter.Regex(v => v.pharamcieBasicInfo.name, regexFilter),
+        Builders<Visite>.Filter.Regex(v => v.Description, regexFilter)
+    );
+
+    dateFilters.Add(nameOrDescriptionFilter);
+}
+
 
         return dateFilters.Any() ? Builders<Visite>.Filter.And(baseFilter, Builders<Visite>.Filter.And(dateFilters)) : baseFilter;
     }
@@ -176,7 +193,5 @@ private IEnumerable<BsonDocument> CreateDateGroupingPipeline()
         { "Items", "$Items" }
     });
 }
-
-
 
 }

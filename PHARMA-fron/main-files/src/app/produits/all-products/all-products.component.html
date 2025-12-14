@@ -1,0 +1,150 @@
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="breadcrumb-title pe-3">Produits</div>
+	<div class="ps-3">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0 p-0">
+				<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
+				<li class="breadcrumb-item active" aria-current="page">List des Products </li>
+			</ol>
+		</nav>
+	</div>
+	<div class="ms-auto">
+		<div class="btn-group">
+			<button type="button" class="btn" [ngClass]="{'btn-light': viewMode === 'list', 'btn-outline-light': viewMode !== 'list'}" (click)="viewMode = 'list'">
+				<i class="bx bx-list-ul"></i> List
+			</button>
+			<button type="button" class="btn" [ngClass]="{'btn-light': viewMode === 'grid', 'btn-outline-light': viewMode !== 'grid'}" (click)="viewMode = 'grid'">
+				<i class="bx bx-grid-alt"></i> Grid
+			</button>
+		</div>
+
+		<div class="btn-group ms-3">
+			<button type="button" class="btn btn-light" (click)="goToCreateProductPage()">
+				<i class="bx bx-plus"></i> Create Product
+			</button>
+			<button type="button" class="btn btn-primary ms-2" (click)="fetchProducts(1)">
+				<i class="bx bx-search"></i> Apply Filters
+			</button>
+		</div>
+	</div>
+</div>
+<div class="card">
+	<div class=" py-3">
+		<div class="row align-items-center m-0" id="filter-controls">
+			<div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+				<input type="text" class="form-control" placeholder="Product Name" [(ngModel)]="filter.name">
+			</div>
+			<div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+				<select class="form-select" [(ngModel)]="filter.categorieId">
+					<option *ngFor="let cat of availableCategories" [value]="cat.id">
+						{{ cat.name }}
+					</option>
+				</select>
+			</div>
+			<div class="col-md-2 col-6">
+				<input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="filter.minPrixVente">
+			</div>
+			<div class="col-md-2 col-6">
+				<input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="filter.maxPrixVente">
+			</div>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<div *ngIf="viewMode === 'list'" class="table-responsive">
+			<table class="table align-middle ">
+				<thead>
+					<tr>
+						
+						<th>Product Name</th>
+						<th>Description</th>
+						<th>Price</th>
+						<th>Category</th>
+						<th>Grossistes</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody >
+					<tr *ngFor="let item of products">
+					
+					<td class="productlist">
+			<a [routerLink]="['/produits', item.id]" class="text-dark d-block">
+        <div>
+            <h6 class="mb-0 ">{{ item.name }}</h6>
+        </div>
+    </a>
+</td>
+						<td>{{ item.description }}</td>
+						<td>{{ item.prixVente | number:'1.2-2' }} DT</td>
+						<td>
+							<span class="badge rounded-pill alert-info" >
+								{{ item.categorie.name }}
+							</span>
+						</td>
+						<td><span>{{ item.numberDepots }} </span></td>
+						<td>
+							<div class="d-flex align-items-center gap-3 fs-6">
+								<a href="javascript:;" class="text-warning"
+								   (click)="editProduct(item)"
+								data-bs-toggle="tooltip" title="Edit"><i class="bi bi-pencil-fill"></i></a>
+								<a href="javascript:;" class="text-danger" data-bs-toggle="tooltip"
+								   (click)="deleteProduct(item.id)"
+								
+								title="Delete"><i class="bi bi-trash-fill"></i></a>
+							</div>
+						</td>
+					</tr>
+					<tr *ngIf="products.length === 0">
+						<td colspan="7" class="text-primary">No products found matching the criteria.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div *ngIf="viewMode === 'grid'">
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+				<div class="col" *ngFor="let item of products">
+					<a [routerLink]="['produits/', item.id]" class="text-decoration-none">
+
+						<div class="card border-primary border h-100  justify-content-center cursor-pointer ">
+							<div class="card-body text-center">
+								<h5 class="product-title">{{ item.name }}</h5>
+								<p class="mb-0 text-secondary">{{ item.categorie.name }}</p>
+								<h4 class="mt-2 text-danger">{{ item.prixVente | number:'1.2-2' }}DT</h4>
+								
+								<div class="d-flex justify-content-center gap-2 mt-3">
+									<button type="button" class="btn btn-outline-primary btn-sm" title="View"><i class="bi bi-eye-fill"></i></button>
+									<button type="button" class="btn btn-outline-warning btn-sm" title="Edit"><i class="bi bi-pencil-fill"></i></button>
+									<button type="button" class="btn btn-outline-danger btn-sm" title="Delete"><i class="bi bi-trash-fill"></i></button>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-12 text-center py-4" *ngIf="products.length === 0">
+					No products found matching the criteria.
+				</div>
+			</div>
+		</div>
+
+		<nav class="float-end mt-4" aria-label="Page navigation">
+			   <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="paginationResult.pageIndex === 1">
+          <button class="page-link" (click)="prevPage()">Precedent</button>
+        </li>
+
+        <li 
+          class="page-item" 
+          *ngFor="let page of totalPages" 
+          [class.active]="pageIndex === page"
+        >
+          <button class="page-link" (click)="goToPage(page)">{{ page + 1 }}</button>
+        </li>
+
+        <li class="page-item" [class.disabled]="paginationResult.pageIndex >= totalPages ">
+          <button class="page-link" (click)="nextPage()">Suivant</button>
+        </li>
+      </ul>
+		</nav>
+	</div>
+</div>

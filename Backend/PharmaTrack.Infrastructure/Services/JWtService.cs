@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using PharmaTrack.Application.Interfaces.services;
 using Microsoft.Extensions.Options;
-using PharmaTrack.Infrastructure.Persistence;
+using PharmaTrack.Application.configuration;
 
 public class JwtService : IJwtService
 {

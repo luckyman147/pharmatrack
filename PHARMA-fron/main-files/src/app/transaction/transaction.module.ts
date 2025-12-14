@@ -9,6 +9,10 @@ import { ComponentsComponent } from './visite/components/components.component';
 import { VisiteService } from './visite/visite.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PharmaciesComponent } from './pharmacies/pharmacies.component';
+import { PharmacieFilterComponent } from './pharmacies/pharmacie-filter/pharmacie-filter.component';
+import { PharmacieService } from './pharmacies/pharmacie.service';
+import { VisiteStateService } from './create-update-viste/visite-state.service';
+import { CreatePharmacieComponent } from './pharmacies/create-pharmacie/create-pharmacie.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +21,15 @@ import { PharmaciesComponent } from './pharmacies/pharmacies.component';
     CreateUpdateVisteComponent,
     ComponentsComponent,
     PharmaciesComponent,
+    PharmacieFilterComponent,
+    CreatePharmacieComponent,
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    TransactionRoutingModule
-  ],providers: [VisiteService]
-
+    TransactionRoutingModule,
+  ],
+  providers: [VisiteService, PharmacieService, VisiteStateService],
 })
-export class TransactionModule { }
+export class TransactionModule {}

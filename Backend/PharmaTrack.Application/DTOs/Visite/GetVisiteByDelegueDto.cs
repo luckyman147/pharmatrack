@@ -10,13 +10,18 @@ public class GetVisiteByDelegueDto
     public Guid DelegueId { get; set; }
     [JsonConverter(typeof(DateTimeConverter))]
     public DateTime? startDate { get; set; }
+    public string? byName { get; set; }
 
     public int PageIndex { get; set; } = 0;
     public int PageSize { get; set; } = 12;
+    public string? zone { get; set; }
+    public string? Gouvernerat { get; set; }
+    public string? Ville { get; set; }
+
     [JsonConverter(typeof(DateTimeConverter))]
     public DateTime? endDate { get; set; }
     public bool? GroupedByPharmacie { get; set; }
-    public bool? filtredByReportUrl { get; set; }
+   
 }
 public class DateTimeConverter : JsonConverter<DateTime?>
 {

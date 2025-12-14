@@ -1,0 +1,89 @@
+<div class="card shadow-sm p-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex align-items-center">
+    <i class="bi bi-arrow-left" 
+       style="cursor: pointer; font-size: 1.5rem; color:black" 
+       (click)="return.emit()"></i>
+    <h4 class="ms-3 mb-0">Retourner</h4>
+  </div>
+</div>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="row g-3">
+
+    <!-- Nom Pharmacie -->
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Nom Pharmacie</label>
+      <input type="text" class="form-control" formControlName="byName" placeholder="Nom de Pharmacie" />
+    </div>
+
+    <!-- Nom Propriétaire -->
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Nom du Propriétaire</label>
+      <input type="text" class="form-control" formControlName="ownerName" placeholder="Nom du propriétaire" />
+    </div>
+
+    <!-- Type -->
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Type</label>
+      <select class="form-select" formControlName="type">
+        <option value="" disabled selected>-- Sélectionner Type --</option>
+        <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+
+    <!-- Horaire -->
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Horaire</label>
+      <select class="form-select" formControlName="horaire">
+        <option value="" disabled selected>-- Sélectionner Horaire --</option>
+        <option *ngFor="let h of horaires" [value]="h">{{ h }}</option>
+      </select>
+    </div>
+
+    <!-- Zone -->
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Zone</label>
+      <select class="form-select" formControlName="zone">
+        <option value="" disabled selected>-- Sélectionner Zone --</option>
+        <option *ngFor="let zone of zones" [value]="zone">{{ zone }}</option>
+      </select>
+    </div>
+
+    <!-- Gouvernerat -->
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Gouvernerat</label>
+      <select class="form-select" formControlName="gouvernerat" [disabled]="!gouvernerats.length">
+        <option value="" disabled selected>-- Sélectionner Gouvernerat --</option>
+        <option *ngFor="let g of gouvernerats" [value]="g">
+          {{ g.charAt(0).toUpperCase() + g.slice(1).toLowerCase() }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Délégation -->
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Délégation</label>
+      <select class="form-select" formControlName="delegation" [disabled]="!delegations.length">
+        <option value="" disabled selected>-- Sélectionner Délégation --</option>
+        <option *ngFor="let d of delegations" [value]="d">{{ d }}</option>
+      </select>
+    </div>
+
+    <!-- Rue -->
+    <div class="col-md-8">
+      <label class="form-label fw-semibold">Rue</label>
+      <input type="text" class="form-control" formControlName="rue" placeholder="Rue" />
+    </div>
+
+    <!-- Téléphone -->
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Numéro de Téléphone</label>
+      <input type="tel" class="form-control" formControlName="phone" placeholder="Ex: 20 123 456" />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-12 text-end mt-3">
+      <button type="submit" class="btn btn-light px-4">Valider</button>
+    </div>
+
+  </form>
+</div>

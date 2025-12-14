@@ -1,0 +1,64 @@
+
+<!--breadcrumb-->
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="breadcrumb-title pe-3">Produits</div>
+	<div class="ps-3">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0 p-0">
+				<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">{{ isUpdateMode ? 'Modifier Produit' : 'Nouveau Produit' }}</li>
+			</ol>
+		</nav>
+	</div>
+
+</div>
+<!--end breadcrumb-->
+<div class="row">
+	<div class="col-lg-8 mx-auto">
+		<div class="card">
+  <div class="card-header py-3 bg-transparent">
+    <h5 class="mb-0">{{ isUpdateMode ? 'Modifier Produit' : 'Nouveau Produit' }}</h5>
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="!isLoading && productForm">
+
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label class="form-label"> Nom de Produit</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Entrer le nom du produit">
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" rows="3" formControlName="description" placeholder="Entrer la description"></textarea>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input type="number" class="form-control" formControlName="prixVente" placeholder="Entrer le prix">
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select class="form-select" formControlName="categorieId">
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-light"  >
+        Soumettre le produit
+    </button>
+    </form>
+</div>
+
+<div *ngIf="isLoading">
+  <p>Chargement des catégories...</p>
+</div>
+</div>
+</div>
+
+
+	</div>
+</div>
+<!--end row-->

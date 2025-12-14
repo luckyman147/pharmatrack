@@ -1,0 +1,159 @@
+.form-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #0077d9, #0056b3);
+    color: white;
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+    padding: 1.5rem;
+    
+    h4 {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+}
+
+.border-dashed {
+    border-style: dashed !important;
+    border-width: 2px;
+    border-color: #cbd5e1;
+}
+
+/* Custom Input Styling */
+.form-control, .form-select {
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    &:focus {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        background-color: #fff;
+    }
+
+    &:hover {
+        border-color: #cbd5e1;
+    }
+}
+
+input[readonly] {
+    background-color: #e2e8f0;
+    opacity: 0.8;
+}
+
+/* Pharmacy Search & Select */
+.input-group {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    
+    .input-group-text {
+        background-color: white;
+        border: none;
+        color: #94a3b8;
+    }
+    
+    input {
+        border: none;
+        box-shadow: none;
+    }
+}
+
+select[size] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: -5px; /* Slight overlap */
+    border-top: none;
+    background-color: white;
+    
+    option {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: #f0f9ff;
+            color: #0284c7;
+        }
+        &:checked {
+             background: linear-gradient(to right, #e0e7ff, #fff);
+             color: #4f46e5;
+             font-weight: 600;
+             border-left: 4px solid #4f46e5;
+        }
+    }
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 0.75rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    transition: all 0.2s;
+    
+    &-primary {
+        background: #00A389; /* Custom Green */
+        border: none;
+        box-shadow: 0 4px 6px -1px rgba(0, 163, 137, 0.3);
+        
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 163, 137, 0.4);
+            background: #008f78;
+        }
+
+        &:disabled {
+            background: #94a3b8;
+            box-shadow: none;
+        }
+    }
+}
+
+.bg-custom-blue {
+    background-color: #00A389 !important; /* Changed to Green as requested */
+    color: white;
+}
+
+.dropdown-item {
+    color: #1e293b; /* Dark text */
+    font-weight: 500;
+    
+    &:hover {
+       background-color: #f1f5f9;
+       color: #00A389;
+    }
+}
+
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-input-container {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 0.5rem;
+}

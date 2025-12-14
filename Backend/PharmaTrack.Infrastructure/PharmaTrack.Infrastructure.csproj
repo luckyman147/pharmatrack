@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Content Include="Extensions/*.json" CopyToOutputDirectory="Always" />
     <ProjectReference Include="..\PharmaTrack.Application\PharmaTrack.Application.csproj" />
     <ProjectReference Include="..\PharmaTrack.Domain\PharmaTrack.Domain.csproj" />
     <ProjectReference Include="..\PharmaTrack.Shared\PharmaTrack.Shared.csproj" />

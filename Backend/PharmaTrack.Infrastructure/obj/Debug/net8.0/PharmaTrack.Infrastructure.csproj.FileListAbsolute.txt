@@ -18,3 +18,4 @@ C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Infrastructure\obj\De
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Infrastructure\obj\Debug\net8.0\refint\PharmaTrack.Infrastructure.dll
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Infrastructure\obj\Debug\net8.0\PharmaTrack.Infrastructure.pdb
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Infrastructure\obj\Debug\net8.0\ref\PharmaTrack.Infrastructure.dll
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.Infrastructure\bin\Debug\net8.0\Extensions\pharmacies_data.json

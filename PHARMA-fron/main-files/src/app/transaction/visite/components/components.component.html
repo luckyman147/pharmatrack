@@ -7,7 +7,10 @@
     
   </h4>
 
-  <div class="row row-cols-1 row-cols-md-2 g-4 ">
+  <div class="row g-4" [ngClass]="{
+      'row-cols-1 row-cols-md-1': group.items.length === 1,
+      'row-cols-1 row-cols-md-2': group.items.length > 1
+    }">
     <div class="col" *ngFor="let visite of group.items">
     <div class="card  shadow-sm" style="border-radius: 8px;">
     <div class="card-body p-4">
@@ -29,7 +32,7 @@
 
            <div class="d-flex gap-2">
   <!-- Edit Button -->
-  <button class="btn p-0 text-primary" type="button" title="Modifier" (click)="editVisite(visite)">
+  <button class="btn p-0 text-primary" type="button" title="Modifier" (click)="updateViste(visite)">
     <i class="bi bi-pencil fs-5"></i>
   </button>
 

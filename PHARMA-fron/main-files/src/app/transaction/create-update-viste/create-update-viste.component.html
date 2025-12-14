@@ -1,1 +1,89 @@
-<p>create-update-viste works!</p>
+<div class="container p-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex align-items-center">
+    <i class="bi bi-arrow-left" 
+       style="cursor: pointer; font-size: 1.5rem; color:black" 
+       (click)="goBack()"></i>
+    <h4 class="ms-3 mb-0">{{ActionType}} une visite</h4>
+  </div>
+</div>
+
+
+  <div class="card p-3 mb-3" style="border-radius: 16px;">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-3">
+  <!-- Left: Delegue Info -->
+  <div class="d-flex align-items-center p-2" style="border: 1px #00A389 solid; border-radius: 18px;">
+    <!-- Image or fallback icon -->
+    <div class="me-3 d-flex justify-content-center align-items-center" style="height: 60px; width: 60px;">
+      <ng-container *ngIf="delegue?.avatarUrl; else defaultIcon">
+        <img
+          [src]="delegue.avatarUrl"
+          alt="Délégué"
+          width="60"
+          height="60"
+          class="rounded-circle"
+        />
+      </ng-container>
+      <ng-template #defaultIcon>
+        <i class="bi bi-person text-primary" style="font-size: 1.5rem;"></i>
+      </ng-template>
+    </div>
+
+    <!-- Delegue info -->
+    <div>
+      <p class="text-muted mb-0">{{ delegue?.id.slice(0, 5) }}</p>
+      <h6 class="mb-0">{{ delegue?.fullName }}</h6>
+    </div>
+  </div>
+
+  <!-- Middle: Pharmacie selection -->
+  <div class="d-flex flex-column ">
+    <label class="form-label">Pharmacie</label>
+    <div class="d-flex " >
+      <input
+        type="text"
+        class="form-control me-2"
+        readonly
+        [value]="selectedPharmacie?.name || 'Aucune sélectionnée'"
+      />
+    </div>
+  </div>
+
+  <!-- Right: Date input -->
+  <div class="d-flex flex-column">
+    <label class="form-label">Date de visite</label>
+    <input
+      type="date"
+      class="form-control"
+      [value]="today"
+      (change)="onDateChange($event.target.value)"
+    />
+  </div>
+</div>
+
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+    </div>
+
+    <div class="mb-3 mt-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" rows="3" placeholder="Ajouter une description..." [(ngModel)]="description"></textarea>
+    </div> <div class="d-flex justify-content-end">
+    <button class="btn btn-light me-2" style="border-radius: 18px; " (click)="saveVisite()">
+      <i class="bi bi-save"></i> Sauvegarder
+    </button>
+    <button class="btn btn-secondary" style="border-radius: 18px;"
+          (click)="downloadPDF()"
+    >
+      <i class="bi bi-printer"></i> Imprimer
+    </button>
+  </div>
+  </div>
+</div>
+<div *ngIf="ActionType =='Creér' && !status">
+
+  <app-pharmacies  (CreatePharmacie)="onStatusChanged()"  (pharmacieSelected)="onPharmacieSelected($event)" (OutputPharmacie)="onSelectUpdate()" ></app-pharmacies>
+</div>
+<div *ngIf="status=='Mis à jour' || status=='Create'">
+  <app-create-pharmacie  (return)="returnPage()" (PharmcieCreated)="returnPage()" ></app-create-pharmacie>
+</div>

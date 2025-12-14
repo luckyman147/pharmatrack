@@ -1,0 +1,173 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left me-2"></i>
+        Retour
+      </button>
+      <h2 class="mb-0" *ngIf="commande">Commande #{{ commande.codeComm }}</h2>
+    </div>
+    <div *ngIf="commande" class="btn-group">
+      <button class="btn btn-primary" (click)="editCommande()">
+        <i class="bi bi-pencil me-2"></i>
+        Modifier
+      </button>
+      <button class="btn btn-danger" (click)="deleteCommande()">
+        <i class="bi bi-trash me-2"></i>
+        Supprimer
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Commande Details -->
+  <div *ngIf="!loading && commande">
+    <!-- Status and Date Card -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Informations Générales</h5>
+            <div class="info-row">
+              <span class="label">Statut:</span>
+              <span [ngClass]="getStatusBadgeClass(commande.status)">
+                {{ getStatusLabel(commande.status) }}
+              </span>
+            </div>
+            <div class="info-row">
+              <span class="label">Date de Commande:</span>
+              <span>{{ formatDate(commande.orderDate) }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Montant Total:</span>
+              <strong class="text-primary">{{ formatCurrency(commande.totalAmount) }}</strong>
+            </div>
+            <div class="info-row">
+              <span class="label">Nombre de Lignes:</span>
+              <span>{{ commande.lines.length }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Pharmacie</h5>
+            <div class="info-row">
+              <span class="label">Nom:</span>
+              <span>{{ commande.pharamcieInfo.nom }}</span>
+            </div>
+            <div class="info-row" *ngIf="commande.pharamcieInfo.adresse">
+              <span class="label">Adresse:</span>
+              <span>{{ commande.pharamcieInfo.adresse }}</span>
+            </div>
+            <div class="info-row" *ngIf="commande.pharamcieInfo.telephone">
+              <span class="label">Téléphone:</span>
+              <span>{{ commande.pharamcieInfo.telephone }}</span>
+            </div>
+            
+            <h5 class="card-title mt-3">Utilisateur</h5>
+            <div class="info-row">
+              <span class="label">Nom:</span>
+              <span>{{ commande.userInfo.fullName }}</span>
+            </div>
+            <div class="info-row" *ngIf="commande.userInfo.email">
+              <span class="label">Email:</span>
+              <span>{{ commande.userInfo.email }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Lines Card -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Lignes de Commande</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Produit</th>
+                <th>Prix Unitaire</th>
+                <th>Allocations Dépôts</th>
+                <th class="text-end">Quantité Total</th>
+                <th class="text-end">Total Ligne</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let line of commande.lines">
+                <td>
+                  <strong>{{ line.nomProuit }}</strong>
+                </td>
+                <td>{{ formatCurrency(line.uniteProduitPrix) }}</td>
+                <td>
+                  <div *ngFor="let alloc of line.allocationsDepots" class="small">
+                    <span class="badge bg-secondary me-1">{{ alloc.depotName }}</span>
+                    {{ alloc.quantityAllocated }} unités
+                  </div>
+                </td>
+                <td class="text-end">
+                  <strong>{{ calculateLineTotalQty(line.allocationsDepots) }}</strong>
+                </td>
+                <td class="text-end">
+                  <strong>{{ formatCurrency(calculateLineTotal(line.uniteProduitPrix, line.allocationsDepots)) }}</strong>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="table-light">
+              <tr>
+                <th colspan="4" class="text-end">Total Commande:</th>
+                <th class="text-end text-primary">{{ formatCurrency(commande.totalAmount) }}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documents Card -->
+    <div class="card" *ngIf="commande.originalDocumentPath || commande.exportedDocumentPath">
+      <div class="card-header">
+        <h5 class="mb-0">Documents</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6" *ngIf="commande.originalDocumentPath">
+            <div class="info-row">
+              <span class="label">Document Original:</span>
+              <a [href]="commande.originalDocumentPath" target="_blank" class="text-primary">
+                <i class="bi bi-file-earmark-text me-1"></i>
+                Voir le document
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="commande.exportedDocumentPath">
+            <div class="info-row">
+              <span class="label">Document Exporté:</span>
+              <a [href]="commande.exportedDocumentPath" target="_blank" class="text-primary">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i>
+                Télécharger
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

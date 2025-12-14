@@ -1,112 +1,85 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using PharmaTrack.Domain.Models.shared;
 
-namespace PharmaTrack.Domain.asset;
-
-
-// Note: This class is static and houses the administrative hierarchy data.
-public static class AdministrativeData
+namespace PharmaTrack.Domain.asset
 {
-    // Static Random instance for generating random numbers
-    private static readonly Random Random = new Random();
-
-    // --- Helper Records for Hierarchy (Private to this file for clarity) ---
-    public record ZoneData(string Name, List<GouverneratData> Governorates);
-    public record GouverneratData(string Name, List<string> Delegations);
-
-    // --- The Complete Administrative Hierarchy ---
-    private static readonly IReadOnlyList<ZoneData> AdministrativeHierarchy = new List<ZoneData>
+    public static class AdministrativeData
     {
-        // Nord-Ouest Zone
-        new("Nord-Ouest", new List<GouverneratData>
+        private static readonly Random Random = new Random();
+
+        public record ZoneData(string Name, List<GouverneratData> Governorates);
+        public record GouverneratData(string Name, List<string> Delegations);
+
+        public static readonly IReadOnlyList<ZoneData> AdministrativeHierarchy = new List<ZoneData>
         {
-            new("Bizerte", new List<string> { "Bizerte Nord", "Jarzouna", "Bizerte Sud", "Sejnane", "Joumine", "Mateur", "Ghezala", "Menzel Bourguiba", "Tinja", "Utique", "Ghar El Melh", "Menzel Jemil", "El Alia", "Ras Jebel" }),
-            new("Beja", new List<string> { "Beja Nord", "Beja Sud", "Amdoun", "Nefza", "Teboursouk", "Thibar", "Testour", "Goubellat", "Mejez El Bab" }),
-            new("Jendouba", new List<string> { "Jendouba", "Jendouba Nord", "Boussalem", "Tabarka", "Ain Drahem", "Fernana", "Ghardimaou", "Oued Mliz", "Balta Bouaouene" }),
-            new("Le Kef", new List<string> { "Kef Ouest", "Kef Est", "Nebeur", "Sakiet Sidi Youssef", "Tejerouine", "Kalaat sinane", "Kalaa El khasba", "Jerissa", "Gsour", "Dahmani", "Le Sers" })
-        }),
+            new("Nord-Est", new List<GouverneratData>
+            {
+                new("Ariana", new List<string> { "Cite Ettadhamen", "Commune Ariana", "El Mnihla", "Kalaat Andalous", "Raoued", "Sidi Thabet", "Soukra" }),
+                new("Ben Arous", new List<string> { "Ben Arous", "Boumhel Bassatine", "El Mourouj", "Ezzahra", "Fouchana", "Hammam Chatt", "Hammam Lif", "M'Hamdia", "Medina Jedida", "Megrine", "Mornag", "Rades" }),
+                new("Manouba", new List<string> { "Borj El Amri", "Douar Hicher", "El Battan", "Jedeida", "Manouba", "Mornaguia", "Oued Ellil", "Tebourba" }),
+                new("Nabeul", new List<string> { "Beni Khalled", "Beni Khiar", "Bouargoub", "Dar Chaabane Fehri", "El Haouaria", "El Mida", "Grombalia", "Hammam Ghezaz", "Hammamet", "Kelibia", "Korba", "Menzel Bouzelfa", "Menzel Temime", "Nabeul", "Slimene", "Takelsa" }),
+                new("Tunis", new List<string> { "Carthage", "Commune Sidi Hessine", "Commune Tunis", "La Goulette", "La Marsa", "Le Bardo", "Le Kram (Ancien El Bhira)" }),
+                new("Zaghouan", new List<string> { "Bir Mchargua", "El Fahs", "Nadhour", "Saouaf", "Zaghouan", "Zriba" })
+            }),
 
-        // Nord-Est Zone - Includes Greater Tunis
-        new("Nord-Est", new List<GouverneratData>
-        {
-            new("Tunis", new List<string> { "Carthage", "La Medina", "Bab Bhar", "Bab Souika", "Omrane", "Omrane Superieur", "Attahrir", "El Menzah", "Cite Alkhadhra", " Le Bardo", "Sejoumi", "Azzouhour", "Alhrairia", "Sidi Hessine", "Ouardia", "Kabaria", "Sidi Elbechir", "Jebel Jelloud", "La Goulette", "Le Kram", "La Marsa" }),
-            new("Ariana", new List<string> { "Ariana", "Soukra", "Raouede", "Kalaat Andalous", "Sidi Thabet", "Cite Attadhamon", "El Mnihla" }),
-            new("Ben Arous", new List<string> { "Ben Arous", "Medina Jedida", "Mourouj", "Hammam Lif", "Hammam Chatt", "Boumhel Bassatine", "Ezzahra", "Rades", "Megrine", "M'hamdia", "Fouchana", "Mornag" }),
-            new("Manouba", new List<string> { "Manouba", "Oued Ellil", "Tebourba", "Battan", "Jedaida", "Mornaguia", "Borj Amri", "Douar Hicher" }),
-            new("Nabeul", new List<string> { "Nabeul", "Dar Chaabane Elfehri", "Beni Khiar", "Korba", "Menzel Temime", "Mida", "Kelibia", "Hammam Ghezaz", "Haouaria", "Takelsa", "Slimane", "Menzel Bouzelfa", "Beni Khalled", "Grombalia", "Bouargoub", "Hammamet" }),
-            new("Zaghouan", new List<string> { "Zaghouan", "Zriba", "Bir Mechargua", "El Fahs", "Nadhour", "Saouaf","El Emayem","Jebel El Wast" })
-        }),
+            new("Nord-Ouest", new List<GouverneratData>
+            {
+                new("Beja", new List<string> { "Amdoun", "Beja Nord", "Beja Sud", "Goubellat", "Mejez El Bab", "Nefza", "Teboursouk", "Testour", "Thibar" }),
+                new("Bizerte", new List<string> { "Bizerte Nord", "Bizerte Sud", "El Alia", "Ghar El Melh", "Ghezala", "Jarzouna", "Joumine", "Mateur", "Menzel Bourguiba", "Menzel Jemil", "Ras Jebel", "Sejnane", "Tinja", "Utique" }),
+                new("Jendouba", new List<string> { "Ain Drahem", "Balta Bouaouan", "Bousalem", "Fernana", "Ghardimaou", "Jendouba", "Jendouba Nord", "Oued Meliz", "Tabarka" }),
+                new("Le Kef", new List<string> { "Dahmani", "Jerissa", "Kalaat Khasba", "Kalaat Senane", "Ksour", "Le Kef Est", "Le Kef Ouest", "Nebeur", "Sakiet Sidi Youssef", "Sers", "Tajerouine", "Touiref" })
+            }),
 
-        // Centre-Ouest/Interieur Zone
-        new("Centre-Ouest/Intérieur", new List<GouverneratData>
-        {
-            new("Siliana", new List<string> { "Siliana Nord", "Siliana Sud", "Bou Arada","Bouarada", "Gaafour", "El Aroussa", "Krib", "Bourouis", "Makther", "Rouhia", "Kesra", "Bargou","Habebsa","Sidi Marched","Siliana" }),
-            new("Kasserine", new List<string> { "Kasserine Nord", "Kasserine Sud", "Azzouhour", "Hassi Ferid", "Sbitla", "Sbiba", "Jedliane", "El Ayoun", "Tela", "Hidra", "Foussana", "Feriana", "Mejel Bel Abbes" }),
-            new("Kairouan", new List<string> { "Kairouan Nord", "Kairouan Sud", "Chebika", "Sebikha", "Oueslatia", "Haffouz", "El Ala", "Hajeb El Ayoun", "Nasrallah", "Cherarda", "Bouhajla" }),
-            new("Sidi Bouzid", new List<string> { "Sidi Bouzid Ouest", "Sidi Bouzid Est", "Jelma", "Sabbalet Ouled Askar", "Bir El Hfay Hfay", "Sidi Ali Benôun", "Menzel Bouzayane", "Meknassi", "Souk Jedid", "Mezouna", "Regueb", "Ouled Haffouz" })
-        }),
+            new("Centre-Ouest/Intérieur", new List<GouverneratData>
+            {
+                new("Kairouan", new List<string> { "Ain Jloula", "Chebika", "Cherarda", "El Ala", "Haffouz", "Hajeb Elayoun", "Kairouan Nord", "Kairouan Sud", "Menzel Mhiri", "Oueslatia", "Sbikha", "Sidi Ali Ben Nasrallah", "Sidi Amor Bouhajla" }),
+                new("Kasserine", new List<string> { "El Ayoun", "Ezzouhour", "Feriana", "Foussana", "Haidra", "Hassi Ferid", "Jedliane", "Kasserine Nord", "Kasserine Sud", "Majel Bel Abbes", "Sbeitla", "Sbiba", "Thala" }),
+                new("Sidi Bouzid", new List<string> { "Bir El Hfay", "Cebalet Ouled Asker", "Essaida", "Hichria", "Jelma", "Meknassy", "Menzel Bouzaiane", "Mezzouna", "Ouled Haffouz", "Regueb", "Sidi Ali Ben Aoun", "Sidi Bouzid Est", "Sidi Bouzid Ouest", "Souk Jedid" }),
+                new("Siliana", new List<string> { "Bargou", "Bouarada", "Bourouis", "El Aroussa", "Gaafour", "Kesra", "Krib", "Makthar", "Rouhia", "Siliana Nord", "Siliana Sud" })
+            }),
 
-        // Centre-Est/Sahel Zone
-        new("Centre-Est/Sahel", new List<GouverneratData>
-        {
-            new("Sousse", new List<string> { "Sousse", "Zaouiet Sousse,Ezzouhour, Ksiba Thrayet", "Sousse Ryadh", "Sousse Jawhara", "Sousse Sidi Abdelhamid", "Hammam Sousse", "Akouda", "Kalaa Kebira", "Sidi Bou Ali", "Hergla", "Enfidha", "Bouficha", "Kondar", "Sidi El Hani", "M'saken", "Kalaa Sghira" }),
-            new("Monastir", new List<string> { "Monastir", "Ouerdanine", "Sahline", "Zeramdine", "Beni Hassen", "Jemmal", "Bembla", "Moknine", "Bekalta", "Teboulba", "Ksar Hellal", "Ksibet Mediouni", "Sayada Lamta Bouhjar" }),
-            new("Mahdia", new List<string> { "Mahdia", "Boumerdes", "Ouled Chamekh", "Chorbane", "Hbira", "Souassi", "El Jem", "Chebba", "Mellouleche", "Sidi Alouane", "Ksour Essef" }),
-            new("Sfax", new List<string> { "Sfax", "Sfax Ouest", "Sakiet Ezzit", "Sakiet Eddaier", "Sfax Sud", "Thyna", "Agareb", "Jebeniana", "El Amra", "El Hancha", "Menzel Chaker", "Ghriba", "Bir Ali Ben Khalifa", "Skhira", "Mahres", "Kerkennah" })
-        }),
+            new("Centre-Est/Sahel", new List<GouverneratData>
+            {
+                new("Mahdia", new List<string> { "Boumerdas", "Bradaa", "Chebba", "Chorbane", "El Jem", "Hbira", "Ksour Essaf", "Mahdia", "Mellouleche", "Ouled Chamekh", "Rejiche", "Sidi Alouane", "Souassi" }),
+                new("Monastir", new List<string> { "Bekalta", "Bembla", "Beni Hassen", "Jemmal", "Ksar Hellal", "Ksibet Mediouni", "Moknine", "Monastir", "Ouerdanine", "Sahline", "Sayada Lamta Bouhjar", "Teboulba", "Zeramdine" }),
+                new("Sfax", new List<string> { "Agareb", "Bir Ali Ben Khalifa", "Commune Sakiet Eddaier", "Commune Sfax", "El Amra", "El Hancha", "Ghriba", "Jebeniana", "Kerkennah", "Mahres", "Menzel Chaker", "Sakiet Ezzit", "Sfax Sud", "Skhira", "Thyna" }),
+                new("Sousse", new List<string> { "Akouda", "Bouficha", "Commune Ezzouhour", "Commune Ksiba Thrayet", "Commune Sousse", "Commune Zaouiet Sousse", "Enfidha", "Hammam Sousse", "Hergla", "Kalaa Kebira", "Kalaa Sghira", "Kondar", "M'saken", "Sidi Bou Ali", "Sidi El Hani" })
+            }),
 
-        // Sud Zone
-        new("Sud", new List<GouverneratData>
-        {
-            new("Gafsa", new List<string> { "Gafsa Nord", "Sidi Aich", "El Ksar", "Gafsa Sud", "Moulares", "Redyef", "Metlaoui", "El Mdhilla", "El Guettar", "Belkhir", "Sned" }),
-            new("Tozeur", new List<string> { "Tozeur", "Degueche", "Tamegza", "Nefta", "Hezoua","Hamet Jerid","Hezoua" }),
-            new("Kebili", new List<string> { "Kebili Sud", "Kebili Nord", "Souk El Ahad", "Douz Nord", "Douz Sud", "El Faouar" }),
-            new("Gabes", new List<string> { "Gabes Ville", "Gabes Ouest", "Gabes Sud", "Ghannouch", "Metouia", "Menzel Habib", "Hamma", "Matmata", "Matmata Nouvelle", "Mareth" }),
-            new("Medenine", new List<string> { "Mednine Nord", "Mednine Sud", "Beni Khedach", "Ben Guerdene", "Zazis", "Jerba Houmet Souk", "Jerba Midoun", "Jerba Ajim", "Sidi Makhlouf" }),
-            new("Tataouine", new List<string> { "Tataouine Nord", "Tataouine Sud", "Smar", "Bir Lahmer", "Ghomrassen", "Dhehiba", "Remada","Beni Mhira","Tataouine" })
-        })
-    };
-
-    /// <summary>
-    /// Gets the ZoneData record matching the provided Zone name (case-insensitive).
-    /// </summary>
-    public static ZoneData? GetZoneData(string zoneName)
-    {
-        if (string.IsNullOrWhiteSpace(zoneName)) return null;
-        return AdministrativeHierarchy
-            .FirstOrDefault(z => z.Name.Equals(zoneName, StringComparison.OrdinalIgnoreCase));
-    }
-
-    /// <summary>
-    /// Generates a complete, randomly selected administrative address.
-    /// NOTE: This function assumes the 'Adress' class is defined elsewhere (e.g., in Adress.cs).
-    /// </summary>
-    public static Adress GetRandomAddress()
-    {
-        // 1. Select a random Zone
-        var zoneIndex = Random.Next(AdministrativeHierarchy.Count);
-        var selectedZone = AdministrativeHierarchy[zoneIndex];
-
-        // 2. Select a random Gouvernerat within that Zone
-        var governorateIndex = Random.Next(selectedZone.Governorates.Count);
-        var selectedGovernorate = selectedZone.Governorates[governorateIndex];
-
-        // 3. Select a random Delegation within that Gouvernerat
-        var delegationIndex = Random.Next(selectedGovernorate.Delegations.Count);
-        var selectedDelegation = selectedGovernorate.Delegations[delegationIndex];
-
-        // 4. Optionally generate a random Rue (Street)
-        var rue = Random.Next(3) == 0 // 1 in 3 chance of having a Rue
-            ? $"Rue Al-Furat n°{Random.Next(1, 150)}" // Example French/Arabic street name
-            : null;
-
-        // 5. Return the new Adress object
-        return new Adress
-        {
-            Zone = selectedZone.Name,
-            Gouvernerat = selectedGovernorate.Name,
-            delegation = selectedDelegation,
-            Rue = rue
+            new("Sud", new List<GouverneratData>
+            {
+                new("Gabes", new List<string> { "Dkhilet Toujane", "El Hamma", "El Hamma Ouest", "Gabes Medina (Est)", "Gabes Ouest", "Gabes Sud", "Ghannouch", "Mareth", "Matmata", "Matmata Jadida", "Menzel Habib", "Metouia", "Ouedhref" }),
+                new("Gafsa", new List<string> { "Bel Khir", "El Guetar", "El Ksar", "Gafsa Nord", "Gafsa Sud", "M'dhilla", "Metlaoui", "Oum Laraies", "Redeyef", "Sened", "Sidi Boubaker", "Sidi Yaich", "Zanouch" }),
+                new("Kebili", new List<string> { "Douz Nord", "Douz Sud", "Faouar", "Kebili Nord", "Kebili Sud", "Rjim Maatoug", "Souk Lahad" }),
+                new("Medenine", new List<string> { "Ben Guerdane", "Beni Khedache", "Houmt Souk", "Jerba Ajim", "Jerba Midoun", "Medenine Nord", "Medenine Sud", "Sidi Makhlouf", "Zarzis" }),
+                new("Tataouine", new List<string> { "Beni Mhira", "Bir Lahmar", "Dhehiba", "Ghomrassen", "Remada", "Smar", "Tataouine Nord", "Tataouine Sud" }),
+                new("Tozeur", new List<string> { "Degueche", "Hamet Jrid", "Hazoua", "Nefta", "Tamaghza", "Tozeur" })
+            })
         };
+
+        public static ZoneData? GetZoneData(string zoneName)
+        {
+            if (string.IsNullOrWhiteSpace(zoneName)) return null;
+            return AdministrativeHierarchy.FirstOrDefault(z => z.Name.Equals(zoneName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static Adress GetRandomAddress()
+        {
+            var zone = AdministrativeHierarchy[Random.Next(AdministrativeHierarchy.Count)];
+            var gov = zone.Governorates[Random.Next(zone.Governorates.Count)];
+            var del = gov.Delegations[Random.Next(gov.Delegations.Count)];
+
+            var rue = Random.Next(3) == 0 ? $"Rue Al-Furat n°{Random.Next(1, 150)}" : null;
+
+            return new Adress
+            {
+                Zone = zone.Name,
+                Gouvernerat = gov.Name,
+                delegation = del,
+                Rue = rue
+            };
+        }
     }
 }

@@ -21,6 +21,13 @@ export const routes: Routes = [
             (m) => m.DashboardRoutingModule
           ),
       },
+      {
+        path: 'commandes',
+        loadChildren: () =>
+          import('./features/commandes/commandes-routing.module').then(
+            (m) => m.CommandesRoutingModule
+          ),
+      },
     ],
   },
 ];

@@ -2455,6 +2455,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
   color: #fff;
+  border-radius: 18px;
   background-color: #6c757d;
   border-color: #6c757d;
 }
@@ -2471,6 +2472,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary.disabled, .btn-secondary:disabled {
   color: #fff;
+  border-radius: 18px;
   background-color: #6c757d;
   border-color: #6c757d;
 }
@@ -2884,7 +2886,7 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-light {
-  color: #f8f9fa;
+  color: #494949;
   border-color: #f8f9fa;
 }
 
@@ -2899,7 +2901,7 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-light.disabled, .btn-outline-light:disabled {
-  color: #f8f9fa;
+  color: #1c1c1c;
   background-color: transparent;
 }
 

@@ -7,8 +7,9 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { SidebarComponent } from "./sidebar/sidebar.component";
+
 import { ColorSwitcherComponent } from './color-switcher/color-switcher.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 

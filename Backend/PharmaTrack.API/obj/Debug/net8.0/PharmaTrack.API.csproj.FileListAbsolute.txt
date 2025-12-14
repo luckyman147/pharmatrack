@@ -80,3 +80,4 @@ C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.API\obj\Debug\net8.0\
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.API\obj\Debug\net8.0\PharmaTrack.API.pdb
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.API\obj\Debug\net8.0\PharmaTrack.API.genruntimeconfig.cache
 C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.API\obj\Debug\net8.0\ref\PharmaTrack.API.dll
+C:\Users\Iyed\Desktop\Medical_Solution\Backend\PharmaTrack.API\bin\Debug\net8.0\Extensions\pharmacies_data.json

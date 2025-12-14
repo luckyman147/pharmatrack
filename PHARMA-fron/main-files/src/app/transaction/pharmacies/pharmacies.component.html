@@ -1,1 +1,71 @@
-<p>pharmacies works!</p>
+<!-- First Row: Title + Pagination -->
+<div class="row align-items-center mb-3">
+  <div class="col-12 col-md-6">
+    <h3>Tous les pharmacies</h3>
+  </div>
+  <div class="col-12 col-md-6 text-end">
+    <nav *ngIf="totalPages > 1">
+      <ul class="pagination justify-content-end mb-0">
+        <li class="page-item" [class.disabled]="pageIndex === 0">
+          <a class="page-link" (click)="prevPage()">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pageNumbers" [class.active]="page === pageIndex">
+          <a class="page-link" (click)="goToPage(page)">{{ page + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="pageIndex === totalPages - 1">
+          <a class="page-link" (click)="nextPage()">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<button class=" btn btn-light p-2 me-2 " (click)="createPharmcie()">
+  <i class="bi bi-plus">
+  </i>
+    Creer Pharmacie
+</button>
+
+<!-- Second Row: Pharmacies + Filter -->
+<div class="row g-3">
+  <!-- Pharmacies List (Left, 9 cols) -->
+  <div class="col-12 col-lg-8">
+    <div class="row g-3">
+      <div class="col-12 col-md-5" *ngFor="let p of pharmacies">
+        <div class="card shadow-sm p-3 selectable-card h-100"  [class.selected]="selectedPharmacie?.id === p.id"
+  (click)="selectPharmacie(p)" >
+        
+  <h6 class="card-subtitle mb-2 text-blue">#Pharmacie N° {{ p.id | slice:0:4 }}</h6>
+         <h5 class="card-title">{{ p.name }}</h5>
+
+  <div class="mb-2">
+    <span class="badge bg-primary me-2">{{ p.pharmacieType }}</span>
+    <span class="badge bg-success">{{ p.horaire }}</span>
+  </div>
+
+  <p class="mb-1 mt-1 fs-6 ">
+    <i class="bi bi-geo-alt-fill me-1"></i>
+    {{ p.location.rue }}, {{ p.location.delegation }}
+  </p>
+  <p class="mb-1 mt-2 fs-6">
+    <i class="bi bi-geo-alt me-2"></i>
+    {{ p.location.gouvernerat }}, {{ p.location.zone }}
+  </p>
+
+  <div class="d-flex justify-content-end gap-2 mt-auto">
+    <button class=" btn text-primary" (click)="onUpdate(p.id!)">
+        <i class="bi bi-pencil-fill"></i>
+    </button>
+    <button class=" btn text-danger" (click)="deletePharmacieById(p.id!)">
+        <i class="bi bi-trash-fill"></i>
+    </button>
+  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Form (Right, 3 cols) -->
+  <div class="col-12 col-lg-4">
+    <app-pharmacie-filter (filterApplied)="onFilterApplied($event)"></app-pharmacie-filter>
+  </div>
+</div>

@@ -70,6 +70,7 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Register
                     email: dto.Email,
                     isActive:true,
                     passwordHash: hash,
+                    commission: 7,
                     salary:  0
                 );
 

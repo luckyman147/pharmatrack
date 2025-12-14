@@ -14,6 +14,7 @@ using PharmaTrack.Application.Interfaces.services;
 using PharmaTrack.Infrastructure.Persistence;
 using PharmaTrack.Infrastructure.Repositories;
 using PharmaTrack.Infrastructure.Services;
+using PharmaTrack.Application.configuration;
 
 namespace PharmaTrack.Infrastructure.Configuration;
 
@@ -34,6 +35,12 @@ services.Configure<JwtOptions>(
             services.AddScoped<ISessionRepository, UserSessionRepository>();
             services.AddScoped<IPharamcieRepository, PharmacieRepository>();
             services.AddScoped<IVisiteRepository, VisiteRepository>();
+            services.AddScoped<ICategorieRepository, CategoryRepository>();
+            services.AddScoped<IProduitRepository, ProduitsRepository>();
+            services.AddScoped<IDepotRepository, DepotsRepository>();
+            services.AddScoped<ICommandeRepository, CommandeRepository>();
+            services.AddScoped<IStockTransactionHistoryRepository, StockTransactionHistoryRepository>();
+            services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
 
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();

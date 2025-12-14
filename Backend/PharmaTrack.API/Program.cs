@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PharmaTrack.API;
@@ -9,6 +10,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
+using PharmaTrack.Application.configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration).AddApi(builder.Configuration).AddApplication(builder.Configuration);
@@ -16,12 +18,38 @@ builder.Services.AddInfrastructure(builder.Configuration).AddApi(builder.Configu
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication(
 
-)
-;
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+        // Ensure secret is not null
+        var secret = jwtSettings?.Secret ?? "default-secret-key-must-be-long-enough";
+        var secretKey = Encoding.UTF8.GetBytes(secret);
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings?.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwtSettings?.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -41,7 +69,7 @@ builder.Services.AddSession(options =>
     options.Cookie.Name = ".PharmaTrack.Session";
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-        options.Cookie.SameSite = SameSiteMode.Strict; // CSRF protection
+    options.Cookie.SameSite = SameSiteMode.Strict; // CSRF protection
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 

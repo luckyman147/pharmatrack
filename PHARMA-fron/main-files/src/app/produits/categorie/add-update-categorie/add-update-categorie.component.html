@@ -1,0 +1,25 @@
+<div class="card">
+
+	<div class="card-body">
+        <div class="row">
+            <div class="col-12 d-flex">
+                <div class="card border shadow-none w-100">
+                  
+                        <form class="mb-0">
+                                    <h6 class="mb-2">{{ isUpdateMode ? 'Mise à jour' : 'Ajouter' }} Product Category</h6>
+
+                            <label for="categoryName" class="form-label visually-hidden">Name</label>
+                            <div class="input-group">
+                                <input type="text" id="categoryName" class="form-control" placeholder="Category name" 
+                                  name="categoryNameInput"          
+                                [(ngModel)]="categoryNameInput">
+                                <button type="button" class="btn btn-light" (click)="isUpdateMode ? updateCategory() : addCategory()">{{ isUpdateMode ? 'Mise à jour' : 'Ajouter' }} Category</button>
+                            </div>
+                        </form>
+                   
+                </div>
+            </div>
+        </div>
+			</div>
+			</div>
+            

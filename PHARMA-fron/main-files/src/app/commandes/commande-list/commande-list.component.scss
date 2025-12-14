@@ -1,0 +1,62 @@
+.table {
+  font-size: 0.9rem;
+
+  tbody tr {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover td {
+      background-color: #e3f2fd !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transform: scale(1.001);
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      color: #000;
+    }
+    
+  }
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+}
+
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.table-responsive {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.pagination {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+// Document buttons styling
+.btn-outline-info,
+.btn-outline-success {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+}
+

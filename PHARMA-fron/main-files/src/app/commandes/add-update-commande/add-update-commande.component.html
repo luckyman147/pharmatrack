@@ -1,0 +1,236 @@
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h4 class="mb-0 text-white">{{ isEditMode ? 'Modifier La Commande' : 'Nouvelle Commande' }}</h4>
+        </div>
+        
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+          </div>
+
+          <form *ngIf="!loading" [formGroup]="commandeForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Error Alert -->
+            <div *ngIf="error" class="alert alert-danger mb-4">
+              {{ error }}
+            </div>
+
+            <!-- General Information -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Pharmacie <span class="text-danger">*</span></label>
+                    <div class="search-input-container p-2 bg-white sticky-top border-bottom">
+                        <input type="text" 
+                               class="form-control form-control-sm" 
+                               placeholder="Rechercher une pharmacie..."
+                               [(ngModel)]="pharmacySearchTerm"
+                               [ngModelOptions]="{standalone: true}"
+                               (input)="filterPharmacies()">
+                    </div>
+                <div class="custom-pharmacy-list mt-2 border rounded overflow-auto" [class.border-danger]="commandeForm.get('pharmacieId')?.invalid && commandeForm.get('pharmacieId')?.touched" style="max-height: 250px;">
+                    <div class="list-group list-group-flush">
+                        <button type="button" 
+                                class="list-group-item list-group-item-action border-0 py-3" 
+                                *ngFor="let pharmacy of filteredPharmacies"
+                                [class.active]="commandeForm.get('pharmacieId')?.value === pharmacy.id"
+                                [class.bg-light]="commandeForm.get('pharmacieId')?.value !== pharmacy.id"
+                                (click)="selectPharmacy(pharmacy.id)">
+                            <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0 fw-bold" [class.text-white]="commandeForm.get('pharmacieId')?.value === pharmacy.id">{{ pharmacy.name }}</h6>
+                                <span class="badge rounded-pill" [ngClass]="commandeForm.get('pharmacieId')?.value === pharmacy.id ? 'bg-white text-primary' : 'bg-primary text-white'">
+                                    {{ pharmacy.location?.gouvernerat }}
+                                </span>
+                            </div>
+                            <small [class.text-white-50]="commandeForm.get('pharmacieId')?.value === pharmacy.id" [class.text-muted]="commandeForm.get('pharmacieId')?.value !== pharmacy.id">
+                                <i class="bi bi-geo-alt-fill me-1"></i> {{ pharmacy.location?.delegation || 'Adresse non spécifiée' }}
+                            </small>
+                        </button>
+                        <div *ngIf="filteredPharmacies.length === 0" class="text-center py-4 text-muted">
+                            <i class="bi bi-search display-6 d-block mb-2"></i>
+                            Aucune pharmacie trouvée
+                        </div>
+                    </div>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="commandeForm.get('pharmacieId')?.invalid && commandeForm.get('pharmacieId')?.touched">
+                    La pharmacie est requise
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date de Commande</label>
+                <input type="date" class="form-control" formControlName="orderDate" [max]="maxDate">
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Document de Commande (Image/PDF)</label>
+                <div class="input-group">
+                  <input 
+                    type="file" 
+                    class="form-control" 
+                    accept="image/*,.pdf"
+                    (change)="onFileSelect($event)"
+                    #fileInput>
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary" 
+                    *ngIf="selectedFile"
+                    (click)="clearFile()">
+                    <i class="bi bi-x-circle"></i> Supprimer
+                  </button>
+                </div>
+                <small class="text-muted">Formats acceptés: JPG, PNG, PDF (Max 5MB)</small>
+                <div *ngIf="selectedFile" class="mt-2">
+                  <span class="badge bg-success">
+                    <i class="bi bi-file-earmark-check"></i> {{ selectedFile.name }} ({{ (selectedFile.size / 1024).toFixed(2) }} KB)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Order Lines Section -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Lignes de Commande</h5>
+              <button type="button" class="btn btn-primary btn-sm" (click)="addLine()">
+                <i class="bi bi-plus me-1"></i> Ajouter un produit
+              </button>
+            </div>
+
+            <div formArrayName="lines">
+              <div *ngFor="let line of lines.controls; let i = index" [formGroupName]="i" class="card mb-3 bg-light border-0">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-2">
+                    <h6 class="text-muted">Ligne #{{ i + 1 }}</h6>
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeLine(i)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+
+                  <div class="row">
+                    <!-- Product Selection -->
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Produit</label>
+                      <div class="dropdown" [class.show]="activeDropdown === 'product-' + i">
+                        <button class="form-select text-start bg-white" type="button" (click)="toggleDropdown('product-' + i)">
+                          {{ getProductName(line.get('produitId')?.value) }}
+                        </button>
+                        <div class="dropdown-menu w-100 bg-white" [class.show]="activeDropdown === 'product-' + i">
+                           <div class="search-input-container p-2 bg-white">
+                               <input type="text" class="form-control form-control-sm" placeholder="Rechercher..." 
+                                      [(ngModel)]="productSearch" [ngModelOptions]="{standalone: true}" (input)="filterProductsLocal()">
+                           </div>
+                           <div style="max-height: 200px; overflow-y: auto;">
+                               <button class="dropdown-item d-flex justify-content-between align-items-center" *ngFor="let prod of filteredProducts" (click)="selectProduct(i, prod.id)">
+                                   <span>{{ prod.name }}</span>
+                                   <span class="badge bg-secondary rounded-pill">{{ prod.prixVente }} DT</span>
+                               </button>
+                               <div *ngIf="filteredProducts.length === 0" class="text-center p-2 text-muted small">Aucun produit</div>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Prix Unitaire</label>
+                      <input type="number" class="form-control" formControlName="uniteProduitPrix" readonly>
+                    </div>
+                  </div>
+
+                  <!-- Allocation Section -->
+                  <div class="ps-4 border-start border-3 border-primary bg-white p-3 rounded">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <small class="fw-bold text-primary">Disponibilité Stocks / Dépôts</small>
+                      <button type="button" class="btn btn-outline-info btn-sm p-10" (click)="addAllocation(getAllocations(i))">
+                        + Ajouter dépôt
+                      </button>
+                    </div>
+
+                    <div formArrayName="allocationsDepots">
+                      <div *ngFor="let alloc of getAllocations(i).controls; let j = index" [formGroupName]="j" class="row g-2 align-items-end mb-2">
+                        <div class="col-md-6">
+                          <label *ngIf="j===0" class="form-label small">Dépôt</label>
+                          <div class="dropdown" [class.show]="activeDropdown === 'depot-' + i + '-' + j">
+                              <button class="form-select form-select-sm text-start bg-white" type="button" 
+                                      (click)="toggleDropdown('depot-' + i + '-' + j)"
+                                      [class.is-invalid]="alloc.get('depotId')?.invalid && alloc.get('depotId')?.touched">
+                                  {{ getDepotName(i, alloc.get('depotId')?.value) }}
+                              </button>
+                              <div class="dropdown-menu w-100 bg-white" [class.show]="activeDropdown === 'depot-' + i + '-' + j">
+                                  <div class="search-input-container p-2 bg-white">
+                                      <input type="text" class="form-control form-control-sm" placeholder="Rechercher..." 
+                                             [(ngModel)]="depotSearch" [ngModelOptions]="{standalone: true}" (input)="filterDepotsLocal()">
+                                  </div>
+                                  <div style="max-height: 200px; overflow-y: auto;">
+                                      <button class="dropdown-item d-flex justify-content-between align-items-center" 
+                                              *ngFor="let d of filteredDepots" (click)="selectDepot(i, j, d.depotId)">
+                                          <span>{{ d.depotName }}</span>
+                                          <span class="badge bg-custom-blue rounded-pill">Stock: {{ d.quantity }}</span>
+                                      </button>
+                                      <div *ngIf="filteredDepots.length === 0" class="text-center p-2 text-muted small">Aucun dépôt disponible</div>
+                                  </div>
+                              </div>
+                          </div>
+                           <div class="invalid-feedback d-block" *ngIf="alloc.get('depotId')?.invalid && alloc.get('depotId')?.touched">
+                              Requis
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                          <label *ngIf="j===0" class="form-label small">Quantité</label>
+                          <input 
+                            type="number" 
+                            class="form-control form-select-sm" 
+                            formControlName="quantityAllocated" 
+                            min="1"
+                            [class.is-invalid]="alloc.get('quantityAllocated')?.invalid && alloc.get('quantityAllocated')?.touched">
+                            <div class="invalid-feedback" *ngIf="alloc.get('quantityAllocated')?.errors?.['max']">
+                                Max: {{ alloc.get('quantityAllocated')?.errors?.['max'].max }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-link link-danger btn-sm p-0" (click)="removeAllocation(i, j)">
+                            <i class="bi bi-x-circle"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end mt-2">
+                    <span class="fw-bold">Total Ligne: {{ calculateLineTotal(i) | number:'1.2-2' }} DT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="lines.length === 0" class="text-center p-4 bg-light rounded border border-dashed mb-3">
+              <p class="text-muted mb-0">Aucune ligne de commande. Cliquez sur "Ajouter un produit".</p>
+            </div>
+
+            <!-- Grand Total -->
+            <div class="d-flex justify-content-end align-items-center py-3 border-top">
+              <h4 class="mb-0 me-3">Total Général:</h4>
+              <h3 class="text-primary mb-0">{{ calculateTotalAmount() | number:'1.2-2' }} DT</h3>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button>
+              <button type="submit" class="btn btn-primary" [disabled]="commandeForm.invalid || submitting || lines.length === 0">
+                <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+                {{ isEditMode ? 'Enregistrer les modifications' : 'Créer la commande' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

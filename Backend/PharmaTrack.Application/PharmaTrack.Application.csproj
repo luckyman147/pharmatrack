@@ -17,10 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Product\DeleteDepot\" />
+    <Folder Include="Commands\Product\RemoveProduitStock\" />
+    <Folder Include="Commands\Product\UpdateDepot\" />
+    <Folder Include="Commands\Product\UpdateProduitStock\" />
+    <Folder Include="Commands\UpdateCategorie\" />
     <Folder Include="Commands\user\deleguete\" />
     <Folder Include="configuration\" />
     <Folder Include="DTOs\auth\" />
-    <Folder Include="Queries\VisitesQueries\GetFiltredGroupedVisites\" />
     <Folder Include="Queries\VisitesQueries\GetVisitesOfPharmacie\" />
   </ItemGroup>
 

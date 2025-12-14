@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Visite } from './models/Visite';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-visite',
@@ -22,20 +23,46 @@ export class VisiteComponent implements OnInit {
   totalPages: number = 0;
   pageNumbers: number[] = [];
 
-  constructor(private visiteService: VisiteService, private fb: FormBuilder) {}
+  constructor(
+    private visiteService: VisiteService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-        this.filterForm = this.fb.group({
-          startDate: [null],
-          endDate: [null],
-        });
+    this.filterForm = this.fb.group({
+      startDate: [null],
+      endDate: [null],
+      byName: [''],
+    });
 
-    this.loadDefaultVisites();
+    this.route.queryParams.subscribe((params) => {
+      this.filterForm.patchValue({
+        startDate: params['startDate'] || null,
+        endDate: params['endDate'] || null,
+        byName: params['byName'] || '',
+      });
+
+      this.pageIndex = +params['page'] || 0;
+      this.loadDefaultVisites();
+    });
   }
   applyFilters(): void {
-    console.log('Start Date:', this.filterForm.get('startDate')?.value);
-    console.log('End Date:', this.filterForm.get('endDate')?.value);
+    const { startDate, endDate, byName } = this.filterForm.value;
     this.pageIndex = 0;
+
+    // Update the URL with new filters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        startDate: startDate || null,
+        endDate: endDate || null,
+        byName: byName || null,
+        page: this.pageIndex,
+      },
+      queryParamsHandling: 'merge', // keep existing params like pagination
+    });
 
     this.loadDefaultVisites();
   }
@@ -45,10 +72,11 @@ export class VisiteComponent implements OnInit {
     });
   }
   loadDefaultVisites(): void {
-        const startDate = this.filterForm.value.startDate;
-        const endDate = this.filterForm.value.endDate;
+    const startDate = this.filterForm.value.startDate;
+    const endDate = this.filterForm.value.endDate;
+    const byName = this.filterForm.value.byName;
     this.visites$ = this.visiteService
-      .getVisites(this.pageIndex, this.pageSize, startDate,endDate)
+      .getVisites(this.pageIndex, this.pageSize, startDate, endDate, byName)
       .pipe(
         map((result: any) => {
           const visites = result.visites ?? result;
@@ -66,6 +94,9 @@ export class VisiteComponent implements OnInit {
           return visites.data ?? [];
         })
       );
+  }
+  NavigateToCreateVisite(): void {
+    this.router.navigate(['Transaction/Creer-Visite']);
   }
   private updatePageNumbers(): void {
     const maxVisible = 5; // how many page numbers to show
@@ -93,6 +124,11 @@ export class VisiteComponent implements OnInit {
   goToPage(page: number): void {
     if (page >= 0 && page < this.totalPages) {
       this.pageIndex = page;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: this.pageIndex },
+        queryParamsHandling: 'merge',
+      });
       this.loadDefaultVisites();
     }
   }
@@ -100,6 +136,11 @@ export class VisiteComponent implements OnInit {
   nextPage(): void {
     if (this.pageIndex < this.totalPages - 1) {
       this.pageIndex++;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: this.pageIndex },
+        queryParamsHandling: 'merge',
+      });
       this.loadDefaultVisites();
     }
   }
@@ -107,6 +148,11 @@ export class VisiteComponent implements OnInit {
   prevPage(): void {
     if (this.pageIndex > 0) {
       this.pageIndex--;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: this.pageIndex - 1 },
+        queryParamsHandling: 'merge',
+      });
       this.loadDefaultVisites();
     }
   }

@@ -1,21 +1,25 @@
 using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using PharmaTrack.Domain.Abstractions;
 using PharmaTrack.Domain.enums;
 using PharmaTrack.Domain.Models.Pharamcie;
 using PharmaTrack.Domain.Models.user;
-
+using System.Text.Json.Serialization;
 namespace PharmaTrack.Domain.Models.Commande;
 
 public class Commande:Entity<Guid> 
 {
- public Guid PharmacieId { get; set; }
 
     // UML attributes
         public required PharamcieBasicInfo PharamcieInfo { get; set; }
         public required ProfilebasicInfo UserInfo { get; set; }
-        public DateTime OrderDate { get; set; } = DateTime.Now;     // orderDate: DateTime
-    public StatusCommande Status { get; set; } = StatusCommande.EnAttente;                 // status: enum
+        public DateTime OrderDate { get; set; } = DateTime.Now;  
+           // orderDate: DateTime
+   
+   [JsonConverter(typeof(JsonStringEnumConverter))]
+    [BsonRepresentation(BsonType.String)]
+    public StatusCommande Status { get; set; }                 // status: enum
     
         public double TotalAmount
         {

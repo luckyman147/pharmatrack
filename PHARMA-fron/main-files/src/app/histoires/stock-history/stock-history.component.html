@@ -1,0 +1,86 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-dark fw-bold">Historique de Stock</h2>
+  </div>
+
+  <!-- Filters -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <form (ngSubmit)="applyFilter()" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label small fw-bold">Date Début</label>
+          <input type="date" class="form-control" [(ngModel)]="filter.startDate" name="startDate">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small fw-bold">Date Fin</label>
+          <input type="date" class="form-control" [(ngModel)]="filter.endDate" name="endDate">
+        </div>
+        <!-- Add more filters like DepotId, ProductId if we have dropdowns available or simple text inputs for IDs for now -->
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary me-2">Filtrer</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="resetFilter()">Réinitialiser</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4">Date</th>
+              <th>Produit (ID)</th>
+              <th>Dépôt (ID)</th>
+              <th>Raison</th>
+              <th class="text-end">Ancienne Qte</th>
+              <th class="text-end">Nouvelle Qte</th>
+              <th class="text-end">Changement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of history">
+              <td class="ps-4 text-dark">{{ item.transactionDate | date:'medium' }}</td>
+              <td class="text-muted small">{{ item.produitId }}</td>
+              <td class="text-muted small">{{ item.depotId }}</td>
+              <td><span class="badge bg-info text-dark">{{ getReasonLabel(item.reason) }}</span></td>
+              <td class="text-end text-muted">{{ item.oldQuantity }}</td>
+              <td class="text-end fw-bold">{{ item.newQuantity }}</td>
+              <td class="text-end">
+                <span [ngClass]="{'text-success': item.newQuantity > item.oldQuantity, 'text-danger': item.newQuantity < item.oldQuantity}">
+                  {{ item.newQuantity - item.oldQuantity > 0 ? '+' : '' }}{{ item.newQuantity - item.oldQuantity }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="history.length === 0 && !loading">
+              <td colspan="7" class="text-center py-4 text-muted">Aucun historique trouvé.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="card-footer bg-white border-top-0 py-3" *ngIf="totalPages > 1">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mb-0">
+                <li class="page-item" [class.disabled]="pageIndex === 1">
+                    <button class="page-link" (click)="onPageChange(pageIndex - 1)">Précédent</button>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ pageIndex }} sur {{ totalPages }}</span>
+                </li>
+                <li class="page-item" [class.disabled]="pageIndex === totalPages">
+                    <button class="page-link" (click)="onPageChange(pageIndex + 1)">Suivant</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+</div>

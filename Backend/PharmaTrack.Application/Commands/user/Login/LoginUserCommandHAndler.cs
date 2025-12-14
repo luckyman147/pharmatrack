@@ -43,10 +43,13 @@ public class LoginUserCommandHAndler(
         // 4️⃣ Generate Refresh Token & Hash
         var refreshToken = _jwtService.GenerateRefreshToken();
         var refreshTokenHash = _jwtService.HashToken(refreshToken);
+        var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
 
-        
+        // 5️⃣ Update User with Refresh Token
+        user.UpdateRefreshToken(refreshTokenHash, refreshTokenExpiry);
+        await _userRepository.UpdateAsync(user);
 
         // 6️⃣ Return tokens
-        return new LoginReult(accessToken, accessTokenExpires, refreshToken,user.id);
+        return new LoginReult(accessToken, accessTokenExpires, refreshToken, user.id);
     }
 }

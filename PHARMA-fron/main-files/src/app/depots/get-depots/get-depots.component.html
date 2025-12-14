@@ -1,0 +1,99 @@
+<div class="container-fluid py-3">
+
+  <!-- Breadcrumb -->
+  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Grossistes</div>
+    <div class="ps-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 p-0">
+          <li class="breadcrumb-item">
+            <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Liste des Grossistes
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  
+  <button class="btn btn-light" type="button" (click)="onNewDepot()">
+      <i class="bi bi-plus-lg"></i> Nouveau Grossistes
+    </button>
+    <app-filter-depots
+      (filterApplied)="applyFilter($event)"
+    ></app-filter-depots>
+  <!-- Table -->
+  
+
+    <div class="table">
+      <table class="table align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            
+            <th scope="col">Id</th>
+            <th scope="col">Nom de Dépôt</th>
+            <th scope="col">Produits</th>
+            <th scope="col">Localisation</th>
+            <th scope="col">Dernière Modification</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let depot of depots" (click)="onNavigateToDetails(depot)" style="cursor: pointer;">
+            <td>#{{ depot.id.slice(0,4) }}</td>
+            <td>{{ depot.name }}</td>
+            <td>
+              <span class="text-success fw-semibold">{{ depot.numberOfProducts}} Produits </span>
+              <span class="text-success fw-semibold">{{ depot.numberOfStockTotal}} Total </span>
+              <br />
+              <span *ngIf="depot.produitsEnRupture > 0" class="text-danger small">
+                {{ depot.produitsEnRupture }} Produits en Rupture
+              </span>
+            </td>
+            <td>
+              {{ depot.location.zone }} <br />
+              <small class="text-muted">{{ depot.location.delegation }}</small>
+            </td>
+            <td>{{ depot.lastModified | date : "dd MMMM yyyy " }}</td>
+            <td>
+              <button class="btn btn-outline-info btn-sm m-1" (click)="onVisite(depot)">
+                <i class="bi bi-eye-fill"></i>
+            </button>
+              <button class="btn btn-outline-warning btn-sm ms-2" (click)="onEdit(depot)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm ms-2" (click)="onDelete(depot)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="depots.length === 0">
+            <td colspan="7" class="text-center py-4 text-muted">
+              Aucun dépôt trouvé
+            </td>
+          </tr>
+        </tbody>
+        
+      </table>
+    <div class="card shadow-sm border-0">
+    <div class=" text-end">
+    <nav *ngIf="totalPages >= 1" aria-label="Page navigation example">
+      <ul class="pagination justify-content-end mb-0">
+        <li class="page-item" [class.disabled]="pageIndex === 1">
+          <a class="page-link" (click)="prevPage()">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pageNumbers" [class.active]="page === pageIndex">
+          <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="pageIndex === totalPages">
+          <a class="page-link" (click)="nextPage()">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+    </div>
+  </div>
+</div>

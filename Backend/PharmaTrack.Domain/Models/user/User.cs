@@ -17,6 +17,9 @@ public abstract class User : Entity<Guid>
 
     public bool EmailConfirmed { get;  set; }
 
+    public string? RefreshTokenHash { get; set; }
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+
     public UserProfile Profile { get;  set; }
     // For Mongo you may want a parameterless ctor
     public User() { }
@@ -34,7 +37,12 @@ public abstract class User : Entity<Guid>
 
     public void ConfirmEmail() => EmailConfirmed = true;
     public void UpdatePassword(string newHash) => PasswordHash = newHash;
-       public void SetProfile(UserProfile profile) => Profile = profile;
+    public void SetProfile(UserProfile profile) => Profile = profile;
+    public void UpdateRefreshToken(string hash, DateTime expiry)
+    {
+        RefreshTokenHash = hash;
+        RefreshTokenExpiryTime = expiry;
+    }
     }
 
 

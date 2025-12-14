@@ -1,0 +1,212 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left me-2"></i>
+        Retour
+      </button>
+      <h2 class="mb-0" *ngIf="commande">Commande #{{ commande.codeComm }}</h2>
+    </div>
+    <div *ngIf="commande && !isAdmin" class="d-flex gap-2">
+      <!-- Status Actions -->
+      <button *ngIf="commande.status === StatusCommande.EnAttente" class="btn btn-success" (click)="updateStatus(StatusCommande.Valide)" title="Valider la commande">
+        <i class="bi bi-check-lg me-1"></i> Valider
+      </button>
+      <button *ngIf="commande.status === StatusCommande.EnAttente" class="btn btn-danger" (click)="updateStatus(StatusCommande.Annulee)" title="Annuler la commande">
+        <i class="bi bi-x-lg me-1"></i> Annuler
+      </button>
+
+      <button *ngIf="commande.status === StatusCommande.Valide" class="btn btn-warning text-white" (click)="updateStatus(StatusCommande.EnRetour)" title="Marquer comme retourné">
+        <i class="bi bi-arrow-counterclockwise me-1"></i> Retour
+      </button>
+      <button *ngIf="commande.status === StatusCommande.Valide" class="btn btn-danger" (click)="updateStatus(StatusCommande.Annulee)" title="Annuler la commande">
+        <i class="bi bi-x-lg me-1"></i> Annuler
+      </button>
+
+      <button class="btn btn-primary btn-circle" (click)="editCommande()" title="Modifier">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button class="btn btn-danger btn-circle" (click)="deleteCommande()" title="Supprimer">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Commande Details -->
+  <div *ngIf="!loading && commande">
+    <!-- Status and Date Card -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Informations Générales</h5>
+            <div class="info-row">
+              <span class="label">Statut:</span>
+              <span [ngClass]="getStatusBadgeClass(commande.status)">
+                {{ getStatusLabel(commande.status) }}
+              </span>
+            </div>
+            <div class="info-row">
+              <span class="label">Date de Commande:</span>
+              <span >{{ formatDate(commande.orderDate) }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Montant Total:</span>
+              <span >{{ formatCurrency(commande.totalAmount) }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Nombre de Lignes:</span>
+              <span >{{ commande.lines.length }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4 ">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Pharmacie</h5>
+            <div class="info-row">
+              <span class="label">Nom:</span>
+              <span>{{ commande.pharamcieInfo.name }}</span>
+            </div>
+            <div class="info-row" *ngIf="commande.pharamcieInfo.address">
+              <span class="label">Adresse:</span>
+              <span>{{ commande.pharamcieInfo.address }}</span>
+            </div>
+            
+            <h5 class="card-title mt-3">Utilisateur</h5>
+            <div class="info-row">
+              <span class="label">Nom:</span>
+              <span>{{ commande.userInfo.fullName }}</span>
+            </div>
+            <div class="info-row" *ngIf="commande.userInfo.avatarUrl">
+              <span class="label">Avatar:</span>
+              <img [src]="commande.userInfo.avatarUrl" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Lines Card -->
+    <div class="card mb-4 mt-7">
+      <div class="card-header">
+        <h5 class="mb-0">Lignes de Commande</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Produit</th>
+                <th>Prix Unitaire</th>
+                <th>Allocations Dépôts</th>
+                <th class="text-end">Quantité Total</th>
+                <th class="text-end">Total Ligne</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let line of commande.lines">
+                <td>
+                  <strong>{{ line.nomProuit }}</strong>
+                </td>
+                <td>{{ formatCurrency(line.uniteProduitPrix) }}</td>
+                <td>
+                  <div *ngIf="line.allocationsDepots && line.allocationsDepots.length > 0" class="allocations-table-wrapper">
+                    <table class="table table-sm table- mb-0 mt-2 mb-2">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Dépôt</th>
+                          <th>Adresse</th>
+                          <th class="text-end">Quantité</th>
+                          <th class="text-end"> Prix Par Depot</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let alloc of line.allocationsDepots">
+                          <td>{{ alloc.depotInfo.name || alloc.depotInfo.id }}</td>
+                          <td>
+                            <span *ngIf="alloc.depotInfo.address" class="text-muted small">
+                              {{ formatAddress(alloc.depotInfo.address) }}
+                            </span>
+                            <span *ngIf="!alloc.depotInfo.address" class="text-muted small fst-italic">Non spécifié</span>
+                          </td>
+                          <td class="text-end">
+                            <strong>{{ alloc.quantityAllocated }}</strong> unités
+                          </td>
+                     
+                            <td class="text-end">
+                              <strong>{{ calculateDepotsLineTotal(line.uniteProduitPrix, alloc.quantityAllocated) }} DT</strong>
+                            </td>
+                       
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <span *ngIf="!line.allocationsDepots || line.allocationsDepots.length === 0" class="text-muted small">
+                    Aucune allocation
+                  </span>
+                </td>
+                <td class="text-end">
+                  <strong>{{ calculateLineTotalQty(line.allocationsDepots) }}</strong>
+                </td>
+                <td class="text-end">
+                  <strong>{{ formatCurrency(calculateLineTotal(line.uniteProduitPrix, line.allocationsDepots)) }}</strong>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="table-light">
+              <tr>
+                <th colspan="4" class="text-end">Total Commande:</th>
+                <th class="text-end text-primary">{{ formatCurrency(commande.totalAmount) }}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documents Card -->
+    <div class="card" *ngIf="commande.originalDocumentPath || commande.exportedDocumentPath">
+      <div class="card-header">
+        <h5 class="mb-0">Documents</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6" *ngIf="commande.originalDocumentPath">
+            <div class="info-row">
+              <span class="label">Document Original:</span>
+              <a [href]="commande.originalDocumentPath" target="_blank" class="text-primary">
+                <i class="bi bi-file-earmark-text me-1"></i>
+                Voir le document
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="commande.exportedDocumentPath">
+            <div class="info-row">
+              <span class="label">Document Exporté:</span>
+              <a [href]="commande.exportedDocumentPath" target="_blank" class="text-primary">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i>
+                Télécharger
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

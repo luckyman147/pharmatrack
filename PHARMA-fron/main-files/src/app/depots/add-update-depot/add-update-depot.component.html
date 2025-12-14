@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ depot ? 'Mettre à jour le Dépôt' : 'Ajouter un Nouveau Dépôt' }}</h5>
+    <button type="button" class="btn-close" (click)="closeModal()"></button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="depotForm">
+
+        <!-- Basic Info -->
+        <h6 class="mb-3">Informations Générales</h6>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Nom du Dépôt</label>
+                <input type="text" id="name" class="form-control" formControlName="name" placeholder="Nom">
+                <div *ngIf="depotForm.get('name')?.invalid && depotForm.get('name')?.touched" class="text-danger small">
+                    Le nom est requis.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="telephone" class="form-label">Téléphone</label>
+                <input type="text" id="telephone" class="form-control" formControlName="telephone" placeholder="Téléphone">
+                <div *ngIf="depotForm.get('telephone')?.invalid && depotForm.get('telephone')?.touched" class="text-danger small">
+                    Le téléphone est requis.
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="rapportDocumentUrl" class="form-label">URL du Rapport</label>
+            <input type="text" id="rapportDocumentUrl" class="form-control" formControlName="rapportDocumentUrl" placeholder="http://...">
+        </div>
+
+        <hr>
+
+        <!-- Location -->
+        <h6 class="mb-3">Adresse</h6>
+        <div formGroupName="location">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="rue" class="form-label">Rue</label>
+                    <input type="text" id="rue" class="form-control" formControlName="rue" placeholder="Rue">
+                </div>
+                <div class="col-md-6">
+                    <label for="gouvernerat" class="form-label">Gouvernerat</label>
+                    <input type="text" id="gouvernerat" class="form-control" formControlName="gouvernerat" placeholder="Gouvernerat">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="delegation" class="form-label">Délégation</label>
+                    <input type="text" id="delegation" class="form-control" formControlName="delegation" placeholder="Délégation">
+                </div>
+                <div class="col-md-6">
+                    <label for="zone" class="form-label">Zone</label>
+                    <input type="text" id="zone" class="form-control" formControlName="zone" placeholder="Zone">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Products Table -->
+        <h6 class="mb-3">Stock de Produits</h6>
+        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+            <table class="table table-sm table-hover align-middle">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th>Produit</th>
+                        <th style="width: 150px;">Quantité</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="produitStock">
+                    <tr *ngFor="let productGroup of productsArray.controls; let i = index" [formGroupName]="i">
+                        <td>
+                            {{ productGroup.get('name')?.value }}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control form-control-sm" formControlName="quantity" min="0">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="availableProducts.length === 0" class="text-center text-muted mt-2">
+            Aucun produit disponible.
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Annuler</button>
+    <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="depotForm.invalid || isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        Enregistrer
+    </button>
+</div>

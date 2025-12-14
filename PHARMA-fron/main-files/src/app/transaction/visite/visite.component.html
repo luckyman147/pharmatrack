@@ -21,6 +21,7 @@
         type="button" 
         class="btn text-white mb-2 mb-md-0" 
         style="background-color: #00A389; border-radius: 18px;"
+		(click)="NavigateToCreateVisite()"
       >
         <i class='bx bx-plus' style="margin-right: 4px;"></i> 
         Créer un Visite
@@ -63,16 +64,16 @@
 					<h5 class="mb-0">Filtrer par</h5>
 				</div>
 				<div class="card-body">
+					<form class="row g-3"[formGroup]="filterForm"  (ngSubmit)="applyFilters()">
 					
 					<div class="position-relative">
 						<div class="position-absolute top-50 translate-middle-y search-icon px-3">
 							<i class="bi bi-search"></i>
-            </div>
-            <input class="form-control ps-5" type="text" placeholder="Rechercher Visite ici...">
+						</div>
+						<input class="form-control ps-5 "onchange="this.dispatchEvent(new Event('input'))"	 type="text" formControlName="byName" placeholder="Rechercher Visite ici...">
         </div>
 					
 		
-		<form class="row g-3"[formGroup]="filterForm"  (ngSubmit)="applyFilters()">
 		<div class="col-12">
 						<label class="form-label">Date de début</label>
 						<input type="date" formControlName="startDate"class="form-control">
